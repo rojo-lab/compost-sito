@@ -22,7 +22,7 @@
             --google-blue: #4285F4;
             --error-color: #FF4136;
             --success-color: #3D9970;
-            --highlight-color: #FFD700; /* Giallo oro per evidenziare */
+            --highlight-color: #FFD700;
         }
 
         body, html {
@@ -86,7 +86,7 @@
 
         .sidebar {
             position: absolute; top: 0; left: 0; height: 100%;
-            width: calc(100% / 5); max-width: 360px;
+            width: 360px; max-width: 80vw;
             background: var(--glass-bg); backdrop-filter: blur(10px);
             border-right: 1px solid var(--border-color); transform: translateX(-100%);
             transition: transform 0.4s ease; padding: 20px;
@@ -99,9 +99,10 @@
         .hamburger-icon {
             position: absolute; top: 20px; left: 20px; width: 24px; height: 20px;
             cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;
+            z-index: 3001;
         }
         .hamburger-icon span { width: 100%; height: 2px; background-color: var(--text-color); transition: all 0.3s; }
-        .sidebar-content { padding-top: 50px; display: flex; flex-direction: column; gap: 15px; height: 100%; }
+        .sidebar-content { padding-top: 50px; display: flex; flex-direction: column; gap: 15px; height: 100%; overflow-y: auto; }
         .sidebar-btn {
             background: none; border: none; color: var(--text-color); text-align: left;
             font-size: 16px; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%;
@@ -177,7 +178,11 @@
         #header-logo-container {
             width: 120px;
             height: 120px;
-            background-image: url('/compost-logo-expanded.jpg');
+            /* --- CORREZIONE PERCORSO IMMAGINE --- */
+            /* Un percorso locale (C:\...) non funziona in un browser. */
+            /* Questo percorso relativo funzionerà se l'immagine si trova */
+            /* nella stessa cartella (es. 'public') del file HTML. */
+            background-image: url('compost-logo-expanded.jpg');
             background-size: cover;
             background-position: center;
             border-radius: 50%;
@@ -345,6 +350,63 @@
             opacity: 0.6;
         }
 
+        /* MEDIA QUERIES PER RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            #graph-container {
+                top: 80px; 
+                height: calc(100% - 80px);
+            }
+            .sidebar {
+                width: 100%;
+                max-width: 100%;
+                border-right: none;
+                z-index: 3000;
+            }
+            .sidebar-close-btn {
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: none;
+                border: none;
+                color: var(--text-color);
+                font-size: 32px;
+                padding: 10px;
+                cursor: pointer;
+                line-height: 1;
+            }
+            .main-actions {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 8px;
+            }
+            .action-btn, #user-display {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .header-logo-trigger {
+                font-size: 18px;
+            }
+            .popup-window {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                border-radius: 0 !important;
+                resize: none !important;
+                z-index: 2500 !important;
+            }
+            .popup-header {
+                cursor: default;
+            }
+        }
+        @media (min-width: 769px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -354,6 +416,7 @@
     
     <div class="ui-layer">
         <div class="sidebar" id="sidebar">
+            <button class="sidebar-close-btn">&times;</button>
             <div class="sidebar-content">
                 <form id="search-form">
                     <input type="search" id="search-input" placeholder="Cerca un nodo...">
@@ -495,7 +558,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const API_BASE_URL = 'http://localhost:3000';
+            const API_BASE_URL = 'http://192.168.1.140:3000';
             let fullGraphData = { nodes: [], links: [] };
             let isFirstVisit = true;
             let authToken = localStorage.getItem('jwtToken') || null;
@@ -503,6 +566,7 @@
             
             let resolveGraphReady;
             const graphReadyPromise = new Promise(resolve => { resolveGraphReady = resolve; });
+            const isMobile = window.innerWidth <= 768;
 
             function formatNoteContent(content) {
                 if (!content || typeof content !== 'string') return '<p></p>';
@@ -543,9 +607,17 @@
             const sidebar = document.getElementById('sidebar');
             const hamburger = document.getElementById('hamburger-icon');
             const triggerArea = document.getElementById('sidebar-trigger-area');
-            hamburger.addEventListener('click', () => sidebar.classList.toggle('open'));
-            triggerArea.addEventListener('mouseenter', () => sidebar.classList.add('open'));
-            sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('open'));
+            const sidebarCloseBtn = document.querySelector('.sidebar-close-btn');
+
+            const toggleSidebar = () => sidebar.classList.toggle('open');
+
+            hamburger.addEventListener('click', toggleSidebar);
+            sidebarCloseBtn.addEventListener('click', toggleSidebar);
+
+            if (!isMobile) {
+                triggerArea.addEventListener('mouseenter', () => sidebar.classList.add('open'));
+                sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('open'));
+            }
 
             document.querySelectorAll('.dropdown-toggle').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -587,10 +659,12 @@
                     win.className = `popup-window ${options.type || ''}`;
                     win.id = id;
                     const initialSize = 350;
-                    win.style.width = `${initialSize}px`; 
-                    win.style.height = `${initialSize}px`;
-                    const pos = this.findOpenPosition(initialSize, initialSize);
-                    win.style.left = `${pos.x}px`; win.style.top = `${pos.y}px`;
+                    if (!isMobile) {
+                        win.style.width = `${initialSize}px`; 
+                        win.style.height = `${initialSize}px`;
+                        const pos = this.findOpenPosition(initialSize, initialSize);
+                        win.style.left = `${pos.x}px`; win.style.top = `${pos.y}px`;
+                    }
                     win.style.zIndex = ++this.highestZ;
 
                     let finalContentHtml;
@@ -621,7 +695,9 @@
 
                     document.getElementById('window-container').appendChild(win);
                     this.windows.set(id, { element: win, options });
-                    this.makeDraggable(win);
+                    if (!isMobile) {
+                        this.makeDraggable(win);
+                    }
                     this.addEventListeners(win, id);
                     if (options.type === 'contribute') {
                         win.querySelector('.action-btn').addEventListener('click', () => handleContributionSubmit(win));
@@ -1070,7 +1146,7 @@
                 } else {
                     currentNodes = fullGraphData.nodes; currentLinks = fullGraphData.links;
                     updateGraph(currentNodes, currentLinks);
-                    setTimeout(() => zoomToFit(currentNodes), 200);
+                    waitForLayoutAndZoom(currentNodes);
                 }
                 setupSimulationControls();
             }
@@ -1103,9 +1179,11 @@
                 links.forEach(d => { linkedByIndex[`${d.source.id},${d.target.id}`] = 1; });
                 function areNodesConnected(a, b) { return linkedByIndex[`${a.id},${b.id}`] || linkedByIndex[`${b.id},${a.id}`] || a.id === b.id; }
                 nodeGroup.on('mouseover', (event, d_hover) => {
+                    if (isMobile) return;
                     nodeGroup.classed('faded', n => !areNodesConnected(d_hover, n));
                     link.classed('faded', l => !(l.source.id === d_hover.id || l.target.id === d_hover.id));
                 }).on('mouseout', () => {
+                    if (isMobile) return;
                     nodeGroup.classed('faded', false); link.classed('faded', false);
                 }).on("click", (event, d) => {
                     event.stopPropagation();
@@ -1119,9 +1197,19 @@
             
             function expandGraph() {
                 isFirstVisit = false;
-                currentNodes = fullGraphData.nodes; currentLinks = fullGraphData.links;
+                
+                // --- NUOVA CORREZIONE JS PER VISIBILITÀ NODI ---
+                // Ricalcola le dimensioni e ricentra la simulazione *prima* di mostrare il grafo.
+                // Questo è cruciale per la visualizzazione corretta su smartphone e tablet.
+                width = container.node().clientWidth;
+                height = container.node().clientHeight;
+                simulation.force("center", d3.forceCenter(width / 2, height / 2));
+                // --- FINE CORREZIONE ---
+
+                currentNodes = fullGraphData.nodes; 
+                currentLinks = fullGraphData.links;
                 updateGraph(currentNodes, currentLinks);
-                setTimeout(() => zoomToFit(currentNodes), 200);
+                waitForLayoutAndZoom(currentNodes);
             }
             
             simulation.on("tick", () => { 
@@ -1148,19 +1236,40 @@
             }
 
             function zoomToFit(nodesData, paddingPercent = 0.95) {
-                if (nodesData.length === 0) return;
+                if (!nodesData || nodesData.length === 0) return;
+                
                 const bounds = g.node().getBBox();
                 if (bounds.width === 0 || bounds.height === 0) return;
+
                 const parent = svg.node().parentElement;
                 const fullWidth = parent.clientWidth;
                 const fullHeight = parent.clientHeight;
+                
                 const scale = paddingPercent * Math.min(fullWidth / bounds.width, fullHeight / bounds.height);
                 const midX = bounds.x + bounds.width / 2;
                 const midY = bounds.y + bounds.height / 2;
+
+                const finalScale = isMobile ? scale : scale * 1.4;
+
                 const transform = d3.zoomIdentity
-                    .translate(fullWidth / 2 - scale * midX, fullHeight / 2 - scale * midY)
-                    .scale(scale * 1.4); // Zoom iniziale aumentato del 40%
+                    .translate(fullWidth / 2 - finalScale * midX, fullHeight / 2 - finalScale * midY)
+                    .scale(finalScale);
+                
                 svg.transition().duration(750).call(zoom.transform, transform);
+            }
+
+            function waitForLayoutAndZoom(nodesData) {
+                let attempts = 0;
+                function check() {
+                    const bounds = g.node().getBBox();
+                    if (bounds.width > 0 && bounds.height > 0) {
+                        zoomToFit(nodesData);
+                    } else if (attempts < 100) { 
+                        attempts++;
+                        requestAnimationFrame(check);
+                    }
+                }
+                requestAnimationFrame(check);
             }
 
             const handleSearch = (event) => {
@@ -1192,6 +1301,18 @@
                     alert('Nessun nodo trovato con questo titolo.');
                 }
             };
+            
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    width = container.node().clientWidth;
+                    height = container.node().clientHeight;
+                    svg.attr("viewBox", `0 0 ${width} ${height}`);
+                    simulation.force("center", d3.forceCenter(width / 2, height / 2));
+                    simulation.alpha(0.3).restart();
+                }, 250);
+            });
 
             document.getElementById('search-form').addEventListener('submit', handleSearch);
 
@@ -1202,4 +1323,3 @@
     </script>
 </body>
 </html>
-
