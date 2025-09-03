@@ -15,7 +15,7 @@ const sgMail = require('@sendgrid/mail');
 const isProduction = process.env.NODE_ENV === 'production';
 
 const pool = new Pool({
-    connectionString: isProduction ? process.env.DATABASE_URL : `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`,
+    connectionString: isProduction ? process.env.DB_URL : `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`,
     ssl: isProduction ? { rejectUnauthorized: false } : false
 });
 
@@ -37,11 +37,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // --- CONFIGURAZIONE PASSPORT.JS PER GOOGLE OAUTH ---
+// Prima della strategia, definisci l'URL del tuo server
+const SERVER_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://compost-project.onrender.com' // Il tuo URL di Render
+    : `http://localhost:${port}`;
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/api/auth/google/callback"
+    // Usa l'URL completo per il callback
+    callbackURL: `${SERVER_URL}/api/auth/google/callback`
   },
+  // ... il resto della tua funzione async non cambia ...
+));
   async (accessToken, refreshToken, profile, done) => {
     try {
         let userResult = await pool.query('SELECT * FROM users WHERE google_id = $1', [profile.id]);
