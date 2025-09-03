@@ -13,6 +13,12 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Ignora le variabili d'ambiente locali
+.env
+
+# Ignora i file con le credenziali
+client_secret_*.json
+credenziali oauthgoogle.txt
 
 # Misc
 .DS_Store
