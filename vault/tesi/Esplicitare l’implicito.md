@@ -1,0 +1,21 @@
+
+[[Trasformare l’accademismo]] [[Il valore della documentazione per le pratiche discorsive]]
+
+**
+
+La documentazione è quindi uno strumento chiave per la trasformazione dell’accademismo. Serve a generare meccanismi riflessivi che stimolano il pensiero critico nel contesto delle pratiche discorsive.  
+È un processo che ri-materializza un evento decontestualizzato dalla dimensione in cui si è manifestato e dalla temporalità in cui si è espresso.  
+Nella prima edizione di “Compost”, la documentazione era catalogativa e distaccata; ciò non ha permesso un’analisi approfondita del progetto a posteriori. La documentazione, prevalentemente fotografica, si limitava a cogliere l’estetica della contaminazione dell’individualità partecipante in quel momento. Inseriva la pratica in una linearità temporale legata alla crononormatività, senza costituire uno strumento valido per generare pratiche discorsive materializzanti.  
+La documentazione è vitale nel processo di esplicitazione delle pratiche performative.  
+La normatività artistica tende a rivelare meno informazioni possibili sulle “opere d’arte”, lasciandole nella nube delle informazioni implicite che emergono solo in base all’educazione dell’individualità nella lettura delle immagini.  
+Esplicitare la proceduralità delle pratiche fornisce consapevolezza a chi le osserva e rende la produzione artistica non solo più “scientifica” ma anche più accessibile.  
+Esplicitare rompe così i canoni normativi dell’arte contemporanea e trasla la stessa da una dimensione pop-elitaria a una dimensione popolare e accessibile.  
+Uno strumento utile all’esplicitazione dei processi è la “praxis” come la intende Nelson. Questa definisce un’oscillazione continua tra pratica e teoria, trasformandola da figura dicotomica a figura monistica, nomade e in costante riconfigurazione. È un movimento riflessivo tra azione e teoria; non è solo produzione, ma fa emergere ciò che normativamente diamo per scontato, portandolo sul piano della conoscenza esplicita. L’obiettivo è scardinare eventuali dicotomie superficiali, poiché questa pratica vive nella relazione tra le due ramificazioni (teorica e pratica). Alimenta il confronto critico tra gesto e parole, strumento essenziale per esplicitare ciò che normalmente resta invisibile nelle pratiche artistiche accademiche.  
+Se volessimo assumere queste considerazioni con un occhio diverso da quello di Nelson, potremmo introdurre i “tagli agenziali” del realismo agenziale. Ogni atto di documentazione e analisi produce questi tagli, che configurano inevitabilmente soggettività, oggetti e significati. Esplicitare l’implicito significa quindi rendere trasparente il funzionamento di questi tagli, rivelando come dimensioni culturali, materiali e temporali vengano incluse o escluse da questi processi.  
+In sostanza, per noi le pratiche di documentazione diventano discorsive quando possiamo riflettere su cosa e come viene documentato. Esplicitare fa emergere le scelte discorsive/narrative, mostrando chiaramente il processo decisionale e la temporalità che la documentazione produce.  
+Esplicitare non ha però solo una dimensione strumentale ma anche etica. Comunicare in modo aperto e privo di filtri significa immedesimarsi nella realtà contemporanea e nelle necessità di indeterminazione sociale, in un contesto mondiale dove la comunicazione è diventata forma di resistenza.  
+Esplicitare è quindi un atto etico intra-attivo in cui coinvolgerci, da cui trarre interrogativi su cosa tendiamo a escludere o marginalizzare. La praxis intra-attiva diventa un “portare alla luce le concettualità implicite”, riconoscendo la responsabilità verso ciò che esclude e marginalizza corpi, ambiente e relazioni “diverse”.  
+Spesso nella saggistica accademica, a nostro parere, la comunità opera su livelli che rimangono impliciti. Affermando un sapere, ne sottraiamo impercettibilmente altri. Rendere molteplice la scrittura e contaminarla vuole essere un modo per esplicitare quella pluralità nascosta, quei contesti silenziosi e le genealogie affettive generanti.  
+Come dovremmo impostare l’esplicitazione nel progetto “Compost”? Cosa è importante esplicitare, e in che modo la praxis intra-attiva o la documentazione possono aiutarci a rivelare le meccaniche implicite della relazionalità dell’entanglement?
+
+**

@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compost | Versione Finale Corretta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        :root {
+            --dark-bg: #1a1a1a;
+            --glass-bg: rgba(30, 30, 30, 0.85);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-color: #f0f0f0;
+            --text-muted: #ccc;
+            --tesi-color: #00FFFF;
+            --nota-color: #FF00FF;
+            --utente-color: #ADFF2F;
+            --autore-color: #FFA500; 
+            --visited-color: #555;
+            --google-blue: #4285F4;
+            --error-color: #FF4136;
+            --success-color: #3D9970;
+            --highlight-color: #FFD700; /* Giallo oro per evidenziare */
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; background-color: var(--dark-bg);
+            font-family: 'Inter', sans-serif; color: var(--text-color);
+        }
+
+        .hidden { display: none !important; }
+
+        .ui-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1000;
+        }
+        .ui-layer > *, .auth-modal-overlay { pointer-events: auto; }
+
+        #graph-container {
+            width: 100%; height: 100%; position: absolute;
+            top: 0; left: 0; z-index: 1; cursor: grab;
+        }
+        #graph-container:active { cursor: grabbing; }
+
+        .link, .node-group { transition: opacity 0.3s ease-in-out; }
+        .faded { opacity: 0.1; }
+        .node {
+            stroke: #fff; stroke-width: 1.5px; cursor: pointer;
+            transition: filter 0.2s ease-in-out, color 0.3s ease, transform 0.3s ease;
+        }
+        .node:hover { filter: drop-shadow(0 0 10px currentColor); }
+        .node.highlighted {
+            stroke: var(--highlight-color);
+            stroke-width: 4px;
+            transform: scale(1.5);
+            filter: drop-shadow(0 0 15px var(--highlight-color));
+        }
+        .node.tesi { color: var(--tesi-color); }
+        .node.nota { color: var(--nota-color); }
+        .node.utente { color: var(--utente-color); }
+        .node.autore { color: var(--autore-color); } 
+        .node.visited { color: var(--visited-color); stroke: #999; }
+        .node-label {
+            fill: var(--text-muted); font-size: 10px; pointer-events: none;
+            text-anchor: middle;
+        }
+        
+        .main-actions {
+            position: absolute; top: 20px; right: 20px;
+            display: flex; gap: 10px; transition: transform 0.4s ease;
+            align-items: center;
+        }
+        .action-btn {
+            background-color: var(--glass-bg); border: 1px solid var(--border-color);
+            color: var(--text-color); padding: 8px 15px; border-radius: 8px;
+            cursor: pointer; font-size: 14px; transition: background-color 0.2s;
+        }
+        .action-btn:hover { background-color: rgba(255, 255, 255, 0.1); }
+        #user-display {
+            background-color: var(--glass-bg); padding: 8px 15px;
+            border-radius: 8px; font-size: 14px;
+        }
+
+        .sidebar {
+            position: absolute; top: 0; left: 0; height: 100%;
+            width: calc(100% / 5); max-width: 360px;
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border-color); transform: translateX(-100%);
+            transition: transform 0.4s ease; padding: 20px;
+            box-sizing: border-box; display: flex; flex-direction: column; gap: 15px;
+        }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-trigger-area {
+            position: absolute; top: 0; left: 0; width: 30px; height: 100%;
+        }
+        .hamburger-icon {
+            position: absolute; top: 20px; left: 20px; width: 24px; height: 20px;
+            cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .hamburger-icon span { width: 100%; height: 2px; background-color: var(--text-color); transition: all 0.3s; }
+        .sidebar-content { padding-top: 50px; display: flex; flex-direction: column; gap: 15px; height: 100%; }
+        .sidebar-btn {
+            background: none; border: none; color: var(--text-color); text-align: left;
+            font-size: 16px; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%;
+        }
+        .sidebar-btn:hover { background-color: rgba(255, 255, 255, 0.1); }
+        
+        #search-form { margin-bottom: 1rem; }
+        #search-input {
+            width: 100%; background-color: var(--dark-bg); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 10px; color: var(--text-color); font-size: 14px;
+        }
+
+        .dropdown-content {
+            display: none; padding-left: 10px; max-height: 150px;
+            overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .dropdown-content::-webkit-scrollbar { display: none; }
+        .history-item {
+            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 4px; padding: 2px 0;
+        }
+        .history-item a {
+            color: var(--text-muted); display: block; padding: 5px; text-decoration: none;
+            cursor: pointer; flex-grow: 1; white-space: normal; word-break: break-word;
+        }
+        .history-item:hover { background-color: rgba(255, 255, 255, 0.05); }
+        
+        .controls-section {
+            margin-top: auto; padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .control-group { margin-bottom: 10px; }
+        .control-group label {
+            display: block; margin-bottom: 5px; font-size: 14px; color: var(--text-muted);
+        }
+        .slider {
+            -webkit-appearance: none; width: 100%; height: 4px;
+            background: rgba(255, 255, 255, 0.2); outline: none; border-radius: 2px;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+            background: var(--tesi-color); cursor: pointer; border-radius: 50%;
+        }
+        .slider::-moz-range-thumb {
+            width: 16px; height: 16px; background: var(--tesi-color);
+            cursor: pointer; border-radius: 50%; border: none;
+        }
+        .top-header {
+            position: absolute; top: 0; left: 0; width: 100%; height: 33vh;
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color); transform: translateY(-100%);
+            transition: transform 0.4s ease; display: flex; align-items: center;
+            justify-content: center; flex-direction: column; box-sizing: border-box;
+        }
+        .top-header.open { transform: translateY(0); }
+        .top-header.open ~ .main-actions { transform: translateY(33vh); }
+        .header-logo-trigger {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            cursor: pointer; font-size: 20px; font-weight: bold; z-index: 1001;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .header-arrow {
+            width: 24px; height: 24px; fill: var(--text-color); transition: transform 0.4s ease;
+        }
+        .header-logo-trigger.open .header-arrow { transform: rotate(180deg); }
+        .header-content {
+            position: relative; width: 100%; height: 100%; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        
+        #header-logo-container {
+            width: 120px;
+            height: 120px;
+            background-image: url('/compost-logo-expanded.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            position: absolute; bottom: 20px; right: 20px; display: flex; gap: 15px;
+        }
+        .social-links a svg { width: 24px; height: 24px; fill: var(--text-color); transition: fill 0.2s; }
+        .social-links a:hover svg { fill: #fff; }
+
+        #window-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1100; 
+        }
+        .popup-window {
+            position: absolute; background: var(--glass-bg);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color); border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); min-width: 300px; min-height: 200px;
+            display: flex; flex-direction: column;
+            overflow: hidden; pointer-events: auto; resize: both;
+        }
+        .popup-header {
+            padding: 10px 15px; cursor: move;
+            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .popup-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .popup-close {
+            background: none; border: none; color: var(--text-color); font-size: 20px; cursor: pointer;
+        }
+        .popup-content {
+            padding: 20px; flex-grow: 1; overflow-y: auto; line-height: 1.6;
+        }
+        .popup-footer {
+            padding: 10px 15px; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .popup-message {
+            text-align: left; font-size: 14px; flex-grow: 1;
+        }
+        .popup-message.error { color: var(--error-color); }
+        .popup-message.success { color: var(--success-color); }
+        
+        .popup-content h1 {
+            font-size: 1.5em; font-weight: 700; margin-bottom: 1.2em;
+        }
+        .popup-window.tesi .popup-content h1 { color: var(--tesi-color); }
+        .popup-window.nota .popup-content h1 { color: var(--nota-color); }
+        .popup-window.utente .popup-content h1 { color: var(--utente-color); }
+        .popup-window.autore .popup-content h1 { color: var(--autore-color); }
+
+        .popup-content h3 {
+            font-size: 1.1em; font-weight: 700; margin-top: 1.5em; margin-bottom: 1em;
+            color: var(--text-color);
+        }
+        .popup-content p { margin-bottom: 1em; }
+        .popup-content .note-meta {
+            font-size: 0.9em; color: var(--text-muted); margin-bottom: 0.75em; line-height: 1.5;
+        }
+        .popup-content .note-meta strong {
+            color: var(--text-color); font-weight: 700;
+        }
+        .popup-content blockquote {
+            border-left: 3px solid var(--border-color);
+            padding-left: 1.2em; margin: 1.5em 0;
+            font-style: italic; color: var(--text-muted);
+        }
+        .popup-content a {
+            color: var(--tesi-color); text-decoration: none; border-bottom: 1px dotted;
+        }
+        .bio-section {
+            text-align: left; margin-bottom: 20px; border-left: 2px solid var(--tesi-color); padding-left: 15px;
+        }
+        .bio-section h3 { margin: 0 0 5px 0; color: var(--text-color); }
+        .bio-section p { margin: 0; color: var(--text-muted); line-height: 1.5; }
+        .contact-section { margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+        .contact-section a { color: var(--tesi-color); text-decoration: none; font-weight: bold; }
+        .contact-section a:hover { text-decoration: underline; }
+
+        .collapse-btn {
+            position: absolute; bottom: 20px; right: 20px; width: 50px; height: 50px;
+            background: var(--glass-bg); border: 1px solid var(--border-color);
+            border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .collapse-btn svg { width: 24px; height: 24px; fill: var(--text-color); }
+        .collapsed-windows-menu {
+            position: absolute; bottom: 80px; right: 20px;
+            background: var(--glass-bg); border-radius: 8px; padding: 5px; display: none;
+        }
+        .collapsed-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 10px; border-radius: 4px;
+        }
+        .collapsed-item-title {
+            cursor: pointer; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .collapsed-item:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .close-collapsed { font-size: 18px; margin-left: 10px; cursor: pointer; }
+
+        .auth-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; align-items: center; justify-content: center;
+            z-index: 2000;
+        }
+        .auth-modal-overlay.visible { display: flex; }
+        .auth-modal-content {
+            position: relative; background: var(--glass-bg); backdrop-filter: blur(10px);
+            padding: 30px 40px; border-radius: 12px; border: 1px solid var(--border-color);
+            width: 100%; max-width: 400px; color: var(--text-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;
+        }
+        #team-modal .auth-modal-content {
+            max-width: 600px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #team-modal .popup-content {
+            overflow-y: auto;
+        }
+        .auth-modal-content h2 { margin-top: 0; margin-bottom: 25px; }
+        .auth-modal-close {
+            position: absolute; top: 10px; right: 15px;
+            background: none; border: none; color: var(--text-muted);
+            font-size: 28px; cursor: pointer;
+        }
+        .google-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 12px; margin-bottom: 20px;
+            border-radius: 8px; background-color: var(--google-blue);
+            color: white; border: none; font-size: 16px; cursor: pointer;
+        }
+        .google-btn svg { width: 20px; height: 20px; margin-right: 10px; }
+        .divider {
+            display: flex; align-items: center; text-align: center;
+            color: var(--text-muted); margin: 20px 0;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; border-bottom: 1px solid var(--border-color);
+        }
+        .divider:not(:empty)::before { margin-right: .25em; }
+        .divider:not(:empty)::after { margin-left: .25em; }
+        .auth-form { display: flex; flex-direction: column; gap: 15px; }
+        .auth-input, .auth-select, .auth-submit-btn, .auth-message {
+            width: 100%; background-color: var(--dark-bg); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 12px; color: var(--text-color);
+            font-size: 14px; box-sizing: border-box;
+        }
+        .auth-submit-btn {
+            background-color: var(--google-blue); border-color: var(--google-blue); cursor: pointer; font-weight: bold;
+        }
+        .auth-input::placeholder { color: var(--text-muted); }
+        .auth-message { margin-top: 15px; display: none; }
+        .auth-message.error { background-color: rgba(255, 65, 54, 0.2); color: var(--error-color); display: block; }
+        .auth-message.success { background-color: rgba(61, 153, 112, 0.2); color: var(--success-color); display: block; }
+        #forgot-password-link.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="graph-container"></div>
+    <div id="window-container"></div>
+    
+    <div class="ui-layer">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-content">
+                <form id="search-form">
+                    <input type="search" id="search-input" placeholder="Cerca un nodo...">
+                </form>
+
+                <button class="sidebar-btn dropdown-toggle">Cronologia Letture</button>
+                <div class="dropdown-content" id="history-content"></div>
+                <button class="sidebar-btn dropdown-toggle">I Miei Contributi</button>
+                <div class="dropdown-content" id="contrib-content"></div>
+                <button class="sidebar-btn" id="how-to-btn">How To</button>
+                <button class="sidebar-btn" id="bug-report-btn">Segnala Bug</button>
+                <div class="controls-section">
+                    <h2>Controlli Simulazione</h2>
+                    <div class="control-group">
+                        <label for="repel-force">Forza Repulsiva</label>
+                        <input type="range" min="100" max="1000" value="300" class="slider" id="repel-force">
+                    </div>
+                    <div class="control-group">
+                        <label for="link-force">Forza Link</label>
+                        <input type="range" min="0" max="1" step="0.01" value="0.1" class="slider" id="link-force">
+                    </div>
+                    <div class="control-group">
+                        <label for="link-distance">Distanza Link</label>
+                        <input type="range" min="50" max="300" value="150" class="slider" id="link-distance">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-trigger-area" id="sidebar-trigger-area"></div>
+        <div class="hamburger-icon" id="hamburger-icon"><span></span><span></span><span></span></div>
+
+        <div class="header-logo-trigger" id="header-logo-trigger">
+            <span>compost</span>
+            <svg class="header-arrow" viewBox="0 0 24 24"><path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg>
+        </div>
+        <div class="top-header" id="top-header">
+             <div class="header-content">
+                 <div id="header-logo-container"></div>
+                 <button class="action-btn" id="team-btn">Team & Contatti</button>
+                 <div class="social-links">
+                     <a href="https://www.youtube.com/@Compost-c2d" target="_blank" rel="noopener noreferrer" aria-label="Youtube"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.267,4,12,4,12,4S5.733,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.733,2,12,2,12s0,4.267,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.733,20,12,20,12,20s6.267,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.267,22,12,22,12S22,7.733,21.582,6.186z M9.9,15.584V8.416L15.4,12L9.9,15.584z"/></svg></a>
+                     <a href="https://www.twitch.tv/compostproject" target="_blank" rel="noopener noreferrer" aria-label="Twitch"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M4.53,3,3,4.53V19.47H6.73V22.5H8.6L10.47,20.6H14.2L21,13.8V3H4.53M9.6,15.33H7.73V8.6H9.6V15.33M14.2,15.33H12.33V8.6H14.2V15.33Z"/></svg></a>
+                     <a href="https://www.instagram.com/compost__project?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.2,5.2 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.2,5.2 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg></a>
+                 </div>
+             </div>
+        </div>
+        
+        <div class="main-actions">
+            <button class="action-btn" id="signup-btn">Sign Up</button>
+            <button class="action-btn" id="login-btn">Log In</button>
+            <button class="action-btn" id="contribute-btn">Contribuisci</button>
+            <span id="user-display" class="hidden"></span>
+            <button class="action-btn hidden" id="logout-btn">Logout</button>
+        </div>
+
+        <div class="collapse-btn" id="collapse-btn">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 16V4H8V16H20M22 16A2 2 0 0 1 20 18H8A2 2 0 0 1 6 16V4A2 2 0 0 1 8 2H20A2 2 0 0 1 22 4V16M4 8H2V20A2 2 0 0 0 4 22H16V20H4V8Z" /></svg>
+        </div>
+        <div class="collapsed-windows-menu" id="collapsed-menu"></div>
+    </div>
+    
+    <div id="signup-modal" class="auth-modal-overlay">
+        <div class="auth-modal-content">
+            <button class="auth-modal-close">&times;</button>
+            <div id="signup-form-container">
+                <h2>Crea un Account</h2>
+                <a class="google-btn google-login-link" style="text-decoration: none;">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z"></path></svg>
+                    Continua con Google
+                </a>
+                <div class="divider">o</div>
+                <form class="auth-form" id="signup-form">
+                    <input type="email" id="signup-email" class="auth-input" placeholder="Mail" required>
+                    <input type="password" id="signup-password" class="auth-input" placeholder="Password" required>
+                    <button type="submit" class="auth-submit-btn">Sign Up</button>
+                </form>
+                <div id="signup-message" class="auth-message"></div>
+            </div>
+        </div>
+    </div>
+    <div id="login-modal" class="auth-modal-overlay">
+       <div class="auth-modal-content">
+            <button class="auth-modal-close">&times;</button>
+            <h2>Accedi</h2>
+            <a class="google-btn google-login-link" style="text-decoration: none;">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z"></path></svg>
+                Accedi con Google
+            </a>
+            <div class="divider">o</div>
+            <form class="auth-form" id="login-form">
+                <input type="email" id="login-email" class="auth-input" placeholder="Mail" required>
+                <input type="password" id="login-password" class="auth-input" placeholder="Password" required>
+                <button type="submit" class="auth-submit-btn">Log In</button>
+            </form>
+            <div id="login-message" class="auth-message"></div>
+            <div style="margin-top: 15px; font-size: 14px;">
+                <a href="#" id="forgot-password-link" style="color: var(--text-muted); text-decoration: none;">Password dimenticata?</a>
+            </div>
+        </div>
+    </div>
+    <div id="team-modal" class="auth-modal-overlay">
+         <div class="auth-modal-content" style="max-width: 600px; text-align: left;">
+            <button class="auth-modal-close">&times;</button>
+            <div class="popup-content" style="padding-top: 0;">
+                <h3 style="text-align: center; font-size: 1.5em; margin-bottom: 1.5em;">Team & Contatti</h3>
+                <div class="bio-section">
+                    <h3>Fabio Cipolla</h3>
+                    <p>Classe '98, studente presso l’Accademia Albertina di Belle Arti di Torino, iscritto al 2’ livello alla scuola di Scultura. In precedenza diplomato all’Accademia di Belle Arti di Carrara al corso di 1’ livello di Scultura. L’esigenza di trovare un metodo di comunicazione che possa mettere in contatto studenti e artisti situati in zone diverse d’Italia, che possano intervenire e creare connessioni con le persone, mescolando i loro linguaggi in un’unica entità, sono tutti concetti che nella pratica di Fabio prevalgono. L’aspetto relazionale della scultura fa sì che l’arte partecipata sia inclusiva e non esclusiva, che permetta quindi al lavoro di crescere o di evolvere anche quando non è sotto il controllo dell’artista, in linea con l’aspetto ciclico della materia. Quest’ultima per Fabio diventa mezzo di espressione, un tramite laddove l’artista si può riconoscere o immedesimare, creando un rapporto di empatia tra corpo, materia e lo spazio che li ospita. La nostra percezione della realtà tiene conto dello spazio dentro al quale questa ci appare, e dove ognuno di noi è presente con il proprio corpo. E' quest’ultimo ad entrare in contatto con gli elementi che lo circondano, instaurando e tessendo relazioni con altri corpi. Spostandosi tra Carrara, Torino e altri luoghi d’Italia Fabio ha potuto fare esperienza in prima persona della potenzialità di una collaborazione del genere, e della necessità che vi è di costruire connessioni assieme ad altre comunità di artisti.</p>
+                </div>
+                <div class="bio-section">
+                    <h3>Simone Rocca</h3>
+                    <p>Rojo, classe '95 originario di Catanzaro. Creativo poliedrico che spazia dalle arti visive a quelle applicate. Il suo lavoro fonde più pratiche in installazioni multimediali che rappresentano il processo che porta alla loro realizzazione. Negli ultimi anni ha creato un ponte digitale con le metodologie precedenti in modo da ampliare lo spettro di comunicazione del suo lavoro.</p>
+                </div>
+                <div class="bio-section" style="border-left-color: var(--text-muted); margin-top: 2rem;">
+                    <p style="font-style: italic; color: var(--text-muted);">
+                        "I nostri nomi sono presenti non per una questione di autorialità in quanto abbiamo ideato questo progetto per trasformare questo concetto. Compost è, e sarà sempre qualcosa che fermenta dal basso, che trasforma la normatività attraverso chi lo abita. I nostri nomi sono presenti sul sito perché ci mettiamo in gioco, proviamo a cambiare l'infrastruttura che costruisce, e ha costruito, nel tempo l'ambiente che ci circonda e che abitiamo e per questo vogliamo metterci la faccia."
+                    </p>
+                </div>
+                <div class="contact-section">
+                    <p>Per comunicazioni e collaborazioni:</p>
+                    <a href="mailto:compost.comunicazione@gmail.com">compost.comunicazione@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bug-report-modal" class="auth-modal-overlay">
+        <div class="auth-modal-content">
+            <button class="auth-modal-close">&times;</button>
+            <div id="bug-report-form-container">
+                <h2>Segnala un Bug</h2>
+                <form class="auth-form" id="bug-report-form">
+                    <textarea class="auth-input" placeholder="Descrivi il bug qui..." required style="height: 150px; resize: vertical;"></textarea>
+                    <button type="submit" class="auth-submit-btn">Invia Segnalazione</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const API_BASE_URL = 'http://localhost:3000';
+            let fullGraphData = { nodes: [], links: [] };
+            let isFirstVisit = true;
+            let authToken = localStorage.getItem('jwtToken') || null;
+            const visitedNodes = new Set();
+            
+            let resolveGraphReady;
+            const graphReadyPromise = new Promise(resolve => { resolveGraphReady = resolve; });
+
+            function formatNoteContent(content) {
+                if (!content || typeof content !== 'string') return '<p></p>';
+                const lines = content.split('\n').filter(line => line.trim() !== '');
+                let html = '';
+                let mainTitleSet = false;
+                const metaKeywords = ['Sezione:', 'Autori:', 'Concetti Chiave:', 'Fonte:'];
+
+                for (const line of lines) {
+                    let processed = false;
+                    for (const keyword of metaKeywords) {
+                        if (line.trim().startsWith(keyword)) {
+                            const value = line.trim().substring(keyword.length).trim();
+                            html += `<p class="note-meta"><strong>${keyword}</strong> ${value}</p>`;
+                            processed = true;
+                            break;
+                        }
+                    }
+                    if (processed) continue;
+                    if (line.trim().startsWith('"') || line.trim().startsWith('“')) {
+                        html += `<blockquote>${line.trim().substring(1, line.trim().length -1)}</blockquote>`;
+                        processed = true;
+                    }
+                    if (processed) continue;
+                    
+                    if (!mainTitleSet && line.trim().length > 0) {
+                        html += `<h1>${line.trim()}</h1>`;
+                        mainTitleSet = true;
+                        processed = true;
+                    }
+                    if (processed) continue;
+                    
+                    html += `<p>${line.trim()}</p>`;
+                }
+                return html || `<p>${content}</p>`;
+            }
+
+            const sidebar = document.getElementById('sidebar');
+            const hamburger = document.getElementById('hamburger-icon');
+            const triggerArea = document.getElementById('sidebar-trigger-area');
+            hamburger.addEventListener('click', () => sidebar.classList.toggle('open'));
+            triggerArea.addEventListener('mouseenter', () => sidebar.classList.add('open'));
+            sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('open'));
+
+            document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const content = btn.nextElementSibling;
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                });
+            });
+
+            const topHeader = document.getElementById('top-header');
+            const headerTrigger = document.getElementById('header-logo-trigger');
+            headerTrigger.addEventListener('click', () => {
+                topHeader.classList.toggle('open');
+                headerTrigger.classList.toggle('open');
+            });
+            
+            const windowManager = {
+                windows: new Map(),
+                highestZ: 1100,
+                collapsedWindows: [],
+                
+                findOpenPosition: function(winWidth, winHeight) {
+                    const existingRects = Array.from(this.windows.values()).map(w => w.element.getBoundingClientRect());
+                    const margin = 20; const step = 40;
+                    for (let y = 80; y <= window.innerHeight - winHeight - margin; y += step) {
+                        for (let x = 80; x <= window.innerWidth - winWidth - margin; x += step) {
+                            const newRect = { top: y, bottom: y + winHeight, left: x, right: x + winWidth };
+                            if (!existingRects.some(rect => newRect.left < rect.right && newRect.right > rect.left && newRect.top < rect.bottom && newRect.bottom > rect.top)) {
+                                return { x, y };
+                            }
+                        }
+                    }
+                    const openWindowsCount = this.windows.size;
+                    return { x: 50 + (openWindowsCount % 5) * 40, y: 80 + (openWindowsCount % 5) * 40 };
+                },
+                createWindow: function(options) {
+                    const id = options.id || `window-${Date.now()}`;
+                    if (this.windows.has(id)) { this.focusWindow(id); return; }
+                    const win = document.createElement('div');
+                    win.className = `popup-window ${options.type || ''}`;
+                    win.id = id;
+                    const initialSize = 350;
+                    win.style.width = `${initialSize}px`; 
+                    win.style.height = `${initialSize}px`;
+                    const pos = this.findOpenPosition(initialSize, initialSize);
+                    win.style.left = `${pos.x}px`; win.style.top = `${pos.y}px`;
+                    win.style.zIndex = ++this.highestZ;
+
+                    let finalContentHtml;
+                    let finalFooterHtml = '';
+
+                    if (options.type === 'contribute') {
+                        finalContentHtml = `
+                            <form id="contribute-form">
+                                <input type="text" class="auth-input" placeholder="Titolo" required style="margin-bottom: 10px;">
+                                <textarea class="auth-input" placeholder="Scrivi qui... [[collegamento]]" required style="height: 150px; resize: vertical;"></textarea>
+                            </form>`;
+                        finalFooterHtml = `
+                            <div class="popup-footer">
+                                <div class="popup-message"></div>
+                                <button class="action-btn">Pubblica</button>
+                            </div>`;
+                    } else {
+                        finalContentHtml = formatNoteContent(options.content);
+                    }
+
+                    win.innerHTML = `
+                        <div class="popup-header">
+                            <span class="popup-title">${options.title}</span>
+                            <button class="popup-close">&times;</button>
+                        </div>
+                        <div class="popup-content">${finalContentHtml}</div>
+                        ${finalFooterHtml}`;
+
+                    document.getElementById('window-container').appendChild(win);
+                    this.windows.set(id, { element: win, options });
+                    this.makeDraggable(win);
+                    this.addEventListeners(win, id);
+                    if (options.type === 'contribute') {
+                        win.querySelector('.action-btn').addEventListener('click', () => handleContributionSubmit(win));
+                    }
+                },
+                addEventListeners: function(win, id) {
+                    win.querySelector('.popup-close').addEventListener('click', () => this.closeWindow(id));
+                    win.addEventListener('mousedown', () => this.focusWindow(id));
+                },
+                closeWindow: function(id) {
+                    const winData = this.windows.get(id);
+                    if (winData) {
+                        winData.element.remove();
+                        this.windows.delete(id);
+                        const abstractNode = fullGraphData.nodes.find(n => n.type === 'tesi' && n.id.toLowerCase().includes('abstract'));
+                        if (abstractNode && id === abstractNode.id && isFirstVisit) {
+                            expandGraph();
+                            isFirstVisit = false;
+                        }
+                    }
+                },
+                focusWindow: function(id) {
+                    const winData = this.windows.get(id);
+                    if (winData) { winData.element.style.zIndex = ++this.highestZ; }
+                },
+                makeDraggable: function(element) {
+                    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                    const header = element.querySelector(".popup-header");
+                    if (header) { header.onmousedown = dragMouseDown; }
+                    function dragMouseDown(e) { e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+                    function elementDrag(e) {
+                        e.preventDefault();
+                        pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+                        pos3 = e.clientX; pos4 = e.clientY;
+                        let newTop = element.offsetTop - pos2; let newLeft = element.offsetLeft - pos1;
+                        if (newTop < 0) newTop = 0; if (newLeft < 0) newLeft = 0;
+                        if (newTop + element.offsetHeight > window.innerHeight) newTop = window.innerHeight - element.offsetHeight;
+                        if (newLeft + element.offsetWidth > window.innerWidth) newLeft = window.innerWidth - element.offsetWidth;
+                        element.style.top = newTop + "px"; element.style.left = newLeft + "px";
+                    }
+                    function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+                },
+                collapseAll: function() {
+                    this.windows.forEach((winData, id) => {
+                        this.collapsedWindows.push({ ...winData.options, id });
+                        winData.element.remove();
+                    });
+                    this.windows.clear();
+                    this.updateCollapsedMenu();
+                },
+                restoreWindow: function(id) {
+                    const winIndex = this.collapsedWindows.findIndex(w => w.id === id);
+                    if (winIndex > -1) {
+                        const winData = this.collapsedWindows.splice(winIndex, 1)[0];
+                        this.createWindow(winData);
+                    }
+                    this.updateCollapsedMenu();
+                },
+                removeCollapsed: function(id) {
+                    this.collapsedWindows = this.collapsedWindows.filter(w => w.id !== id);
+                    this.updateCollapsedMenu();
+                },
+                updateCollapsedMenu: function() {
+                    const menu = document.getElementById('collapsed-menu');
+                    menu.innerHTML = '';
+                    if (this.collapsedWindows.length === 0) { menu.style.display = 'none'; return; }
+                    menu.style.display = 'block';
+                    this.collapsedWindows.forEach(winData => {
+                        const item = document.createElement('div');
+                        item.className = 'collapsed-item';
+                        const titleEl = document.createElement('span');
+                        titleEl.className = 'collapsed-item-title';
+                        titleEl.textContent = winData.title;
+                        titleEl.onclick = () => this.restoreWindow(winData.id);
+                        const closeEl = document.createElement('span');
+                        closeEl.className = 'close-collapsed';
+                        closeEl.innerHTML = '&times;';
+                        closeEl.onclick = (e) => { e.stopPropagation(); this.removeCollapsed(winData.id); };
+                        item.appendChild(titleEl);
+                        item.appendChild(closeEl);
+                        menu.appendChild(item);
+                    });
+                }
+            };
+            
+            async function updateHistory(nodeData) {
+                if (visitedNodes.has(nodeData.id)) return;
+                visitedNodes.add(nodeData.id);
+                if (authToken) {
+                    try {
+                        await fetch(`${API_BASE_URL}/api/me/history`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+                            body: JSON.stringify({ nodeId: nodeData.id })
+                        });
+                    } catch (error) { console.error("Errore salvataggio cronologia:", error); }
+                }
+                populateHistoryUI();
+                d3.select(d3.selectAll('.node-group').filter(d => d.id === nodeData.id).node()).select('.node').classed('visited', true);
+            }
+
+            function populateHistoryUI() {
+                const historyContent = document.getElementById('history-content');
+                historyContent.innerHTML = '';
+                visitedNodes.forEach(nodeId => {
+                    const nodeData = fullGraphData.nodes.find(n => n.id === nodeId);
+                    if (!nodeData) return;
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    const link = document.createElement('a');
+                    link.textContent = nodeData.id;
+                    link.onclick = () => windowManager.createWindow({ id: nodeData.id, title: nodeData.id, content: nodeData.content, type: nodeData.type });
+                    historyItem.appendChild(link);
+                    historyContent.appendChild(historyItem);
+                });
+            }
+
+            function populateContributionsUI(contributions) {
+                const contribContent = document.getElementById('contrib-content');
+                contribContent.innerHTML = contributions.length === 0 
+                    ? '<p style="padding: 5px; color: var(--text-muted);">Nessun contributo.</p>'
+                    : '';
+                contributions.forEach(node => {
+                    const contribItem = document.createElement('div');
+                    contribItem.className = 'history-item';
+                    const link = document.createElement('a');
+                    link.textContent = `${node.title} (${node.status})`;
+                    link.onclick = () => windowManager.createWindow({ id: node.title, title: node.title, content: node.content, type: 'utente' });
+                    contribItem.appendChild(link);
+                    contribContent.appendChild(contribItem);
+                });
+            }
+
+            const signUpBtn = document.getElementById('signup-btn');
+            const logInBtn = document.getElementById('login-btn');
+            const teamBtn = document.getElementById('team-btn');
+            const bugReportBtn = document.getElementById('bug-report-btn');
+            const contributeBtn = document.getElementById('contribute-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const userDisplay = document.getElementById('user-display');
+            const collapseBtn = document.getElementById('collapse-btn'); 
+
+            const signUpModal = document.getElementById('signup-modal');
+            const logInModal = document.getElementById('login-modal');
+            const teamModal = document.getElementById('team-modal');
+            const bugReportModal = document.getElementById('bug-report-modal');
+
+            collapseBtn.addEventListener('click', () => windowManager.collapseAll());
+            signUpBtn.addEventListener('click', () => signUpModal.classList.add('visible'));
+            logInBtn.addEventListener('click', () => logInModal.classList.add('visible'));
+            teamBtn.addEventListener('click', () => teamModal.classList.add('visible'));
+            
+            document.getElementById('how-to-btn').addEventListener('click', () => {
+                const howToContent = `
+                    <h3>Come Creare Connessioni tra Nodi</h3>
+                    <p>Per creare un link da un nodo all'altro, puoi usare una sintassi simile a quella di Markdown direttamente nel testo del tuo contributo.</p>
+                    <p>Quando scrivi il contenuto di una nota, inserisci il titolo esatto del nodo a cui vuoi collegarti tra doppie parentesi quadre. Ad esempio:</p>
+                    <blockquote>Il concetto di <strong>simpoiesi</strong> è fondamentale, come spiegato nella nota [[Simpoiesi: Definizione]].</blockquote>
+                    <p>Una volta approvato, il testo racchiuso tra le doppie parentesi non sarà visibile nella nota, ma verrà trasformato in un link visivo nel grafo, creando una nuova connessione tra il tuo contributo e il nodo esistente.</p>
+                `;
+                windowManager.createWindow({id: 'how-to', title: 'How To: Creare Link', content: howToContent});
+            });
+            
+            document.querySelectorAll('.google-login-link').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = `${API_BASE_URL}/api/auth/google`;
+                });
+            });
+
+            contributeBtn.addEventListener('click', () => {
+                if (!authToken) { logInModal.classList.add('visible'); return; }
+                windowManager.createWindow({ id: 'contribute-window', title: 'Nuovo Contributo', type: 'contribute' });
+            });
+            logoutBtn.addEventListener('click', () => {
+                authToken = null;
+                localStorage.removeItem('jwtToken');
+                visitedNodes.clear();
+                populateHistoryUI();
+                populateContributionsUI([]);
+                d3.selectAll('.node').classed('visited', false);
+                updateUIAfterAuth();
+            });
+
+            function setupAuthModal(modal) {
+                if (!modal) return;
+                const closeBtn = modal.querySelector('.auth-modal-close');
+                if(closeBtn) {
+                    closeBtn.addEventListener('click', () => modal.classList.remove('visible'));
+                }
+                modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('visible'); });
+            }
+            [signUpModal, logInModal, teamModal, bugReportModal].forEach(setupAuthModal);
+            
+            document.getElementById('signup-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const msgEl = document.getElementById('signup-message');
+                msgEl.className = 'auth-message';
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: e.target.elements['signup-email'].value, password: e.target.elements['signup-password'].value })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+                    document.getElementById('signup-form-container').innerHTML = `<h2>Registrazione Avvenuta!</h2><p>${data.message}</p>`;
+                } catch (error) { msgEl.textContent = error.message; msgEl.classList.add('error'); }
+            });
+            
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const msgEl = document.getElementById('login-message');
+                msgEl.className = 'auth-message';
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: e.target.elements['login-email'].value, password: e.target.elements['login-password'].value })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+                    authToken = data.token;
+                    localStorage.setItem('jwtToken', authToken);
+                    updateUIAfterAuth();
+                    logInModal.classList.remove('visible');
+                } catch (error) { msgEl.textContent = error.message; msgEl.classList.add('error'); }
+            });
+
+            const bugReportForm = document.getElementById('bug-report-form');
+            const bugReportFormContainer = document.getElementById('bug-report-form-container');
+            const originalBugReportHTML = bugReportFormContainer.innerHTML;
+
+            bugReportBtn.addEventListener('click', () => {
+                if (!authToken) {
+                    logInModal.classList.add('visible');
+                    return;
+                }
+                bugReportModal.classList.add('visible');
+            });
+
+            const handleBugSubmit = async (e) => {
+                e.preventDefault();
+                const textarea = bugReportForm.querySelector("textarea");
+                const reportText = textarea.value.trim();
+                if (!reportText) return;
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/bug-report`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${authToken}` },
+                        body: JSON.stringify({ reportText })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+                    bugReportFormContainer.innerHTML = `<h2>Grazie!</h2><p>${data.message}</p>`;
+                } catch (error) {
+                    bugReportFormContainer.innerHTML = `<h2>Errore</h2><p class="error">${error.message}</p>`;
+                }
+            };
+
+            bugReportForm.addEventListener('submit', handleBugSubmit);
+
+            bugReportModal.querySelector('.auth-modal-close').addEventListener('click', () => {
+                setTimeout(() => {
+                    bugReportFormContainer.innerHTML = originalBugReportHTML;
+                    document.getElementById('bug-report-form').addEventListener('submit', handleBugSubmit);
+                }, 500);
+            });
+
+            document.getElementById('forgot-password-link').addEventListener('click', async (e) => {
+                e.preventDefault();
+                const link = e.target;
+                const loginModalContent = link.closest('.auth-modal-content');
+                const loginForm = loginModalContent.querySelector('#login-form');
+                const loginMessageEl = loginModalContent.querySelector('#login-message');
+
+                if (link.classList.contains('disabled')) return;
+
+                const email = prompt("Per favore, inserisci l'indirizzo email associato al tuo account:");
+
+                if (email) {
+                    try {
+                        link.classList.add('disabled');
+                        const originalText = link.textContent;
+                        let counter = 60;
+                        link.textContent = `Attendi ${counter}s...`;
+                        const interval = setInterval(() => {
+                            counter--;
+                            link.textContent = `Attendi ${counter}s...`;
+                            if (counter <= 0) {
+                                clearInterval(interval);
+                                link.classList.remove('disabled');
+                                link.textContent = originalText;
+                            }
+                        }, 1000);
+
+                        loginMessageEl.textContent = 'Invio richiesta in corso...';
+                        loginMessageEl.className = 'auth-message';
+                        loginMessageEl.style.display = 'block';
+
+                        const response = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: email })
+                        });
+
+                        const data = await response.json();
+                        if (!response.ok) throw new Error(data.message);
+
+                        loginForm.style.display = 'none';
+                        loginMessageEl.innerHTML = `${data.message}<br><small style="margin-top: 10px; display: block;">Consiglio: controlla anche la cartella spam/posta indesiderata.</small>`;
+                        loginMessageEl.classList.add('success');
+
+                    } catch (error) {
+                        loginMessageEl.textContent = `Errore: ${error.message}`;
+                        loginMessageEl.classList.remove('success');
+                        loginMessageEl.classList.add('error');
+                        
+                        const intervalId = link.dataset.intervalId;
+                        if(intervalId) clearInterval(parseInt(intervalId));
+                        link.classList.remove('disabled');
+                        link.textContent = 'Password dimenticata?';
+                    }
+                }
+            });
+
+            async function handleContributionSubmit(win) {
+                const form = win.querySelector('#contribute-form');
+                const msgEl = win.querySelector('.popup-message');
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/nodes`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+                        body: JSON.stringify({ title: form.elements[0].value, content: form.elements[1].value })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+                    msgEl.textContent = data.message; msgEl.classList.remove('error'); msgEl.classList.add('success');
+                    fetchUserData();
+                    setTimeout(() => windowManager.closeWindow(win.id), 2000);
+                } catch(error) { msgEl.textContent = `Errore: ${error.message}`; msgEl.classList.remove('success'); msgEl.classList.add('error'); }
+            }
+            
+            function handleGoogleAuthCallback() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('token')) {
+                    const token = urlParams.get('token');
+                    authToken = token;
+                    localStorage.setItem('jwtToken', token);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    updateUIAfterAuth();
+                    logInModal.classList.remove('visible');
+                    signUpModal.classList.remove('visible');
+                }
+            }
+
+            function updateUIAfterAuth() {
+                const loggedIn = !!authToken;
+                signUpBtn.classList.toggle('hidden', loggedIn);
+                logInBtn.classList.toggle('hidden', loggedIn);
+                logoutBtn.classList.toggle('hidden', !loggedIn);
+                userDisplay.classList.toggle('hidden', !loggedIn);
+                if (loggedIn) {
+                    const payload = JSON.parse(atob(authToken.split('.')[1]));
+                    userDisplay.textContent = payload.user.email;
+                    fetchUserData();
+                }
+            }
+
+            async function fetchUserData() {
+                if (!authToken) return;
+                try {
+                    await graphReadyPromise;
+                    const historyRes = await fetch(`${API_BASE_URL}/api/me/history`, { headers: { 'Authorization': `Bearer ${authToken}` } });
+                    const historyData = await historyRes.json();
+                    visitedNodes.clear();
+                    historyData.forEach(nodeId => visitedNodes.add(nodeId));
+                    populateHistoryUI();
+                    d3.selectAll('.node-group').select('.node').classed('visited', d => visitedNodes.has(d.id));
+                    const contribRes = await fetch(`${API_BASE_URL}/api/me/contributions`, { headers: { 'Authorization': `Bearer ${authToken}` } });
+                    const contribData = await contribRes.json();
+                    populateContributionsUI(contribData);
+                } catch (error) { console.error("Errore caricamento dati utente:", error); }
+            }
+
+            let currentNodes = [], currentLinks = [];
+            const container = d3.select('#graph-container');
+            let width = container.node().clientWidth;
+            let height = container.node().clientHeight;
+            const svg = container.append("svg").attr("viewBox", `0 0 ${width} ${height}`).style("width", "100%").style("height", "100%");
+            const g = svg.append("g");
+            const simulation = d3.forceSimulation()
+                .force("link", d3.forceLink().id(d => d.id))
+                .force("charge", d3.forceManyBody())
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collide", d3.forceCollide()); 
+            let link = g.append("g").attr("class", "links").selectAll("line"); 
+            let nodeGroup = g.append("g").selectAll("g");
+            let radiusScale;
+            let zoom = d3.zoom().on("zoom", (event) => g.attr("transform", event.transform));
+            svg.call(zoom);
+
+            async function initializeGraph() {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/graph`);
+                    if (!response.ok) throw new Error(`Errore HTTP: ${response.status}`);
+                    const dataFromAPI = await response.json();
+                    
+                    const idToTitleMap = new Map(dataFromAPI.nodes.map(node => [node.id, node.title]));
+                    
+                    const formattedNodes = dataFromAPI.nodes.map(node => ({
+                        id: node.title,
+                        content: node.content,
+                        type: node.type
+                    }));
+                    
+                    const formattedLinks = dataFromAPI.links
+                        .map(link => ({
+                            source: idToTitleMap.get(link.source),
+                            target: idToTitleMap.get(link.target)
+                        }))
+                        .filter(link => link.source && link.target); 
+                        
+                    fullGraphData = { nodes: formattedNodes, links: formattedLinks };
+                    setupGraphSimulation();
+                    resolveGraphReady();
+                } catch (error) { console.error("Impossibile caricare i dati del grafo:", error); }
+            }
+
+            function setupGraphSimulation() {
+                const nodeDegrees = {};
+                fullGraphData.links.forEach(link => {
+                    const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+                    const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+                    nodeDegrees[sourceId] = (nodeDegrees[sourceId] || 0) + 1;
+                    nodeDegrees[targetId] = (nodeDegrees[targetId] || 0) + 1;
+                });
+                fullGraphData.nodes.forEach(node => { node.degree = nodeDegrees[node.id] || 0; });
+                radiusScale = d3.scaleSqrt().domain([0, d3.max(fullGraphData.nodes, d => d.degree)]).range([8, 25]);
+                simulation.force("collide").radius(d => radiusScale(d.degree) + 10);
+                
+                const abstractNode = fullGraphData.nodes.find(n => n.type === 'tesi' && n.id.toLowerCase().includes('abstract'));
+                if (isFirstVisit && abstractNode) {
+                    windowManager.createWindow({ id: abstractNode.id, title: abstractNode.id, content: abstractNode.content, type: abstractNode.type });
+                    currentNodes = [abstractNode]; currentLinks = [];
+                    updateGraph(currentNodes, currentLinks);
+                } else {
+                    currentNodes = fullGraphData.nodes; currentLinks = fullGraphData.links;
+                    updateGraph(currentNodes, currentLinks);
+                    setTimeout(() => zoomToFit(currentNodes), 200);
+                }
+                setupSimulationControls();
+            }
+
+            function updateGraph(nodes, links) {
+                const abstractNode = fullGraphData.nodes.find(n => n.type === 'tesi' && n.id.toLowerCase().includes('abstract')) || {x: 0, y: 0};
+                nodes.forEach(node => {
+                    if (!node.x) { node.x = abstractNode.x || width / 2; node.y = abstractNode.y || height / 2; }
+                });
+                nodeGroup = nodeGroup.data(nodes, d => d.id).join(
+                    enter => {
+                        const g = enter.append("g").attr("class", "node-group").call(drag(simulation));
+                        g.append("circle")
+                            .attr("class", d => `node ${d.type}`).classed('visited', d => visitedNodes.has(d.id))
+                            .style("fill", "currentColor").attr("r", 0)
+                            .call(s => s.transition().duration(750).delay((d, i) => i * 10).attr("r", d => radiusScale(d.degree)));
+                        g.append("text")
+                            .attr("class", "node-label").attr("dy", d => radiusScale(d.degree) + 12)
+                            .text(d => d.id.split(':')[0]).attr("opacity", 0)
+                            .call(s => s.transition().delay(700).duration(750).attr("opacity", 1));
+                        return g;
+                    }
+                );
+                link = link.data(links, d => `${d.source.id}-${d.target.id}`).join(
+                    enter => enter.append("line").attr("class", "link").attr("stroke-width", 0)
+                        .attr("stroke", "rgba(255,255,255,0.3)")
+                        .call(s => s.transition().delay(200).duration(750).attr("stroke-width", 1.5))
+                );
+                const linkedByIndex = {};
+                links.forEach(d => { linkedByIndex[`${d.source.id},${d.target.id}`] = 1; });
+                function areNodesConnected(a, b) { return linkedByIndex[`${a.id},${b.id}`] || linkedByIndex[`${b.id},${a.id}`] || a.id === b.id; }
+                nodeGroup.on('mouseover', (event, d_hover) => {
+                    nodeGroup.classed('faded', n => !areNodesConnected(d_hover, n));
+                    link.classed('faded', l => !(l.source.id === d_hover.id || l.target.id === d_hover.id));
+                }).on('mouseout', () => {
+                    nodeGroup.classed('faded', false); link.classed('faded', false);
+                }).on("click", (event, d) => {
+                    event.stopPropagation();
+                    windowManager.createWindow({ id: d.id, title: d.id, content: d.content, type: d.type });
+                    updateHistory(d);
+                });
+                simulation.nodes(nodes);
+                simulation.force("link").links(links);
+                simulation.alpha(1).restart();
+            }
+            
+            function expandGraph() {
+                isFirstVisit = false;
+                currentNodes = fullGraphData.nodes; currentLinks = fullGraphData.links;
+                updateGraph(currentNodes, currentLinks);
+                setTimeout(() => zoomToFit(currentNodes), 200);
+            }
+            
+            simulation.on("tick", () => { 
+                link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+                nodeGroup.attr("transform", d => `translate(${d.x},${d.y})`); 
+            });
+
+            function drag(simulation) { 
+                function dragstarted(event, d) { if (!event.active) simulation.alphaTarget(0.1).restart(); d.fx = d.x; d.fy = d.y; }
+                function dragged(event, d) { d.fx = event.x; d.fy = event.y; }
+                function dragended(event, d) { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }
+                return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended); 
+            }
+            
+            function setupSimulationControls() {
+                const repelSlider = document.getElementById('repel-force');
+                const linkForceSlider = document.getElementById('link-force');
+                const linkDistSlider = document.getElementById('link-distance');
+                repelSlider.addEventListener('input', e => { simulation.force("charge").strength(-e.target.value); simulation.alpha(0.3).restart(); });
+                linkForceSlider.addEventListener('input', e => { simulation.force("link").strength(+e.target.value); simulation.alpha(0.3).restart(); });
+                linkDistSlider.addEventListener('input', e => { simulation.force("link").distance(+e.target.value); simulation.alpha(0.3).restart(); });
+                simulation.force("charge").strength(-repelSlider.value);
+                simulation.force("link").strength(+linkForceSlider.value).distance(+linkDistSlider.value);
+            }
+
+            function zoomToFit(nodesData, paddingPercent = 0.95) {
+                if (nodesData.length === 0) return;
+                const bounds = g.node().getBBox();
+                if (bounds.width === 0 || bounds.height === 0) return;
+                const parent = svg.node().parentElement;
+                const fullWidth = parent.clientWidth;
+                const fullHeight = parent.clientHeight;
+                const scale = paddingPercent * Math.min(fullWidth / bounds.width, fullHeight / bounds.height);
+                const midX = bounds.x + bounds.width / 2;
+                const midY = bounds.y + bounds.height / 2;
+                const transform = d3.zoomIdentity
+                    .translate(fullWidth / 2 - scale * midX, fullHeight / 2 - scale * midY)
+                    .scale(scale * 1.4); // Zoom iniziale aumentato del 40%
+                svg.transition().duration(750).call(zoom.transform, transform);
+            }
+
+            const handleSearch = (event) => {
+                event.preventDefault();
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
+                
+                nodeGroup.selectAll('.node').classed('highlighted', false);
+                nodeGroup.classed('faded', false);
+                link.classed('faded', false);
+
+                if (!searchTerm) return;
+
+                const targetNode = fullGraphData.nodes.find(d => d.id.toLowerCase().includes(searchTerm));
+
+                if (targetNode) {
+                    const targetElement = nodeGroup.filter(d => d.id === targetNode.id);
+                    targetElement.select('.node').classed('highlighted', true);
+                    
+                    nodeGroup.filter(d => d.id !== targetNode.id).classed('faded', true);
+                    link.classed('faded', true);
+
+                    const transform = d3.zoomIdentity
+                        .translate(width / 2, height / 2)
+                        .scale(1.5)
+                        .translate(-targetNode.x, -targetNode.y);
+                    
+                    svg.transition().duration(750).call(zoom.transform, transform);
+                } else {
+                    alert('Nessun nodo trovato con questo titolo.');
+                }
+            };
+
+            document.getElementById('search-form').addEventListener('submit', handleSearch);
+
+            handleGoogleAuthCallback();
+            initializeGraph();
+            updateUIAfterAuth(); 
+        });
+    </script>
+</body>
+</html>
+

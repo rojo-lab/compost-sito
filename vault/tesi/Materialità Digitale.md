@@ -1,0 +1,60 @@
+[[Diventare Materia]] [[La Materia]]
+**
+
+La discorsività legata alla materia nella contemporaneità dovrà interrogarsi sul ruolo assunto dalla digitalizzazione nelle discorsività ad essa connesse.
+
+Tenendo in considerazione il primo capitolo, possiamo provare a definire insieme il ruolo che la digitalizzazione assume nelle intra-azioni che producono materia e come queste si configurano nella produzione artistica.
+
+La digitalizzazione delle nostre vite avanza, dando una parvenza d'incontrollabilità da parte delle masse. È infatti trainata da pochi eletti che costituiscono il nostro avanzamento nell’evoluzione tecnica e stilistica delle tecnologie.
+
+Oggi abbiamo vere e proprie “protesi” o “estensioni” corporee entrate nelle nostre vite quasi nell’inconsapevolezza comune. Nei primi dieci anni del nuovo millennio, abbiamo visto un’evoluzione sfrenata dei dispositivi che ormai fanno parte della nostra quotidianità. Dispositivi ci monitorano costantemente nelle operazioni giornaliere: contapassi, qualità del sonno, apporto calorico, acquisti, ecc.
+
+Ormai anche il nostro essere è esteso in un metaverso gestito da algoritmi scanditi da una piccola porzione di umani. Forniamo dati validi per profilare le nostre persone; in alcuni casi, questi sono in grado di sostituire completamente l’ammontare economico necessario per acquistare un prodotto.
+
+Puoi aprire nuovi conti bancari e ricevere soldi in “regalo” per aver fornito i tuoi dati personali, che possono essere venduti ad aziende terze. Spingono per far invitare i tuoi amici, guadagnando altri soldi in base all’ammontare di dati che riesci a fornire. Tutto inserito in una catena infinita che passa di mano in mano, ampliandosi: ricorda le metodologie di uno schema Ponzi, differendo solo perché il ricircolo è basato su dati anagrafici piuttosto che sull’investimento economico del singolo.
+
+Questo tipo di materialità assume caratteristiche sociali e politiche al pari delle discorsività precitate. Analizzare tali dinamiche aiuterà ad alimentare il sistema di “questioning” per interrogarsi sull’impatto politico e sociale della tecnologia sulle nostre vite.
+
+È interessante, ad esempio, il caso “Paragon” avvenuto in Italia. Non mi dilungherò nelle spiegazioni degli avvenimenti, essendo una vicenda di dominio pubblico per la quale risulta semplice reperire informazioni attraverso i giornali nazionali.
+
+Il caso “Paragon” è interessante per le implicazioni sociali e politiche. La possibilità di affidarsi alla tecnologia per un controllo definibile “orwelliano” – che sembra uscito da romanzi su futuri distopici – è seriamente preoccupante per l’incolumità della nostra privacy. Quando la tecnologia viene utilizzata per opprimere, controllare o uccidere, come dovremmo porci nei suoi confronti? I primitivisti tendono a criminalizzare l’utilizzo sfrenato delle tecnologie, cadendo in narrazioni poco in linea con l’etica contemporanea; spesso non riconoscono in modo positivo le tecnologie che permettono cambiamenti di genere o che nel mondo contemporaneo risultano indispensabili per il benessere collettivo.
+
+Possiamo pensare anche alle moderne intelligenze artificiali che minacciano di rivoluzionare il mondo del lavoro. Ciò che diventa interessante è analizzare come l’avanzamento tecnologico storicamente non abbia mai ridotto il lavoro umano, ma solo trasformato e proporzionalmente aumentato.
+
+Le stesse AI hanno utilizzi anche in ambito militare, facilitando costosissime operazioni e rendendo la vita umana vittima di un prompt inserito in un’interfaccia user-friendly.
+
+Sulla base di queste analisi, possiamo evincere che: l’avanzamento tecnologico è privo di rappresentazioni pre-costituite; è indeterminato e rende indeterminato anche l’impatto sociale e politico; ha impatti nelle dimensioni spazio-temporali in modi differenti. La tecnologia è dunque intra-attiva poiché definisce la materialità attraverso l’interazione soggetto-oggetto-discorsività. Sorge spontaneo il quesito: il problema è la tecnologia o la mano che la governa?
+
+Ormai siamo abituati a questi meccanismi, e spesso l’abitudine annichilisce il pensiero critico nella convinzione normativa che sia meglio ciò che conosciamo rispetto all’ignoto derivante da eventuali trasformazioni. L’indeterminazione materica rende però il processo trasformativo un percorso non lineare naturale. La volontà di non accogliere le trasformazioni genera un’illusione di staticità che fuoriesce dalle dinamiche del reale per appagare la politica e la socialità.
+
+Tutto cambia, nonostante le teorie consolidate sulla nostra percezione: questa sta mutando insieme alle nostre individualità attraverso le teorie più recenti sul vivere comune e sul rapporto con le (s)oggettività non umane.
+
+Il progresso tecnologico sta inserendo nuovi dilemmi etici. Ad esempio: come dovrebbe porsi l’umano con l’artificiale? È corretto lo sfruttamento incondizionato delle macchine? La sensazione di empatia che proviamo verso le prime forme robotiche è dovuta all’estetica antropomorfa che gli abbiamo assegnato, o è una forma più profonda d’intelligenza emotiva? Quando assume forme cupe e ambigue, come le moderne bambole del sesso “RealDoll”, possiamo basarci sull’etica presistente per capire come rapportarci a queste ultime?
+
+Cosa definisce la soggettività umana? In “Ghost in the Shell”, il burattinaio dei manichini domanda al primo ministro cosa separi l’umano dalla macchina. La macchina domanda se a rendere l’umano tale sia la memoria, argomentando sulla memoria che essa detiene e se questa possa renderla umana.
+
+La domanda che dovremmo porci è: cosa ci rende davvero umani? L’intelligenza emotiva non appartiene solo all’umano: empatia ed emotività non sono caratteristiche distintive. Cosa significa essere umani? È una domanda che dovrebbe elevarci a qualcosa di superiore rispetto all’alterità, o possiamo trovare una risposta che non comporti un innalzamento rispetto al resto del mondo? E la tecnologia, le macchine, le intelligenze artificiali: in quale spettro della realtà rientrano? Soggetto-oggetto-discorsività: che forma assume quando l’oggetto è la tecnologia?
+
+La tecnologia ci aiuta a produrre nuova materialità: questo è un dato oggettivo. Ma ne siamo veramente consapevoli?
+
+Interrogarsi sull’etica e sulla pedagogia che ne consegue è probabilmente una delle vie da intraprendere per tessere rapporti più stabili con le tecnologie. La sperimentazione negli anni ha assunto innumerevoli forme, da quelle più astratte e artistiche a quelle più “concrete” e tecnoscientifiche. Dovremmo provare a trovare una definizione per questa sperimentazione? O ha forme troppo acerbe per una definizione capace di accogliere la proceduralità performativa nelle trasformazioni temporali? Sicuramente non è una definizione che possiamo delegare a una singola individualità: il lavoro collettivo può solo agevolare il processo di discorsività che ne definirà i confini materiali che la tecnologia può assumere.
+
+Come possiamo però esplicitare tutto ciò che rimane implicito in una materialità meno tattile rispetto ad altri tipi di performatività?
+
+Un esempio che può aiutare a immedesimarci nella generazione di questa consapevolezza risiede nelle sperimentazioni prostatiche dei sensori e dei rapporti generativi che leghiamo agli stessi. Per agevolare il processo immaginativo, entrando nei dettagli, possiamo pensare all’utilizzo di sensori elettromiografici che ci permettono di decodificare in una scala decimale gli impulsi elettrici generati dalla mobilità di un arto (al quale il sensore è collegato). Attraverso software, possiamo collegare questa decodifica di valori decimali a sistemi di generazione audio e video. Nel caso della creazione generativa visuale, un nostro movimento corporeo può diventare un’esperienza grafico-sensoriale in termini visivi. Questa metodologia trova forti limitazioni in base al sistema hardware di manifestazione. Oggi abbiamo diversi modi di rappresentare qualcosa di visivo digitalmente: ad esempio attraverso schermi e proiettori, la cui definizione comporta il grado di appagamento del nostro senso visivo/estetico. Abbiamo anche tecnologie più recenti come i visori, che avvicinano la materialità generata a una forma quasi tattile ma ancora illusoria.
+
+Voglio argomentare il valore di questa materialità generata attraverso la “tattilità” non solo come schema argomentativo funzionale alla corroborazione materica che stiamo ricercando, ma anche come strumento utile a limitare eventuali confutazioni rappresentative e deterministiche della generazione materica.
+
+Per quanto rimanga innegabile che la generazione di stimoli visivi concorra pienamente alla costituzione di una nuova materialità, potremmo avvicinarci a qualcosa che agevoli anche le visioni più rappresentative nella comprensione di queste argomentazioni. Abbiamo analizzato la comparizione della generazione visiva attraverso la sensoristica precitata, ma quando questa genera sonorità oltre che feedback video, come la inseriamo nelle analisi pregresse? La sonorità ha una dimensione fisicamente tattile pur essendo invisibile. Fisicamente, le onde sonore ci colpiscono ed entrano in contatto diretto con il nostro corpo. Anche le teorie rappresentative positiviste dovrebbero faticare a confutare la performatività della materia nel momento in cui una gestualità – senza contatto diretto con uno strumento musicale – può generare una materialità tattile. Il suono è indubbiamente materico, e le onde attraverso cui si propaga rientrano nelle discorsività dimensionali che rifiutano la scissione macro e micro-sistemica. Le particelle d'aria spostate sono in grado non solo di mettere in discussione eventuali confutazioni positivistiche, ma anche di avvalorare la teoria intra-attiva della performatività della materia.
+
+La generazione audio-video attraverso il nostro spostamento nello spazio amplia quindi la visione fenomenologica dell’utilizzo delle tecnologie abbinate alla performatività corporea, incanalando ulteriori narrazioni nella performatività gestuale.
+
+L’implementazione di un piccolo “set” digitale nel luogo di realizzazione del progetto ci aiuterà a declinare in ulteriori modi le performatività in corso. Avremo la possibilità di rimasticare la materialità dei fenomeni che si susseguono nella temporalità d'inserimento del progetto. Contemporaneamente, agevoleremo la partecipazione di media artist, alimentando il dialogo con le arti visive per ampliare le consapevolezze dei partecipanti in funzione della collettività.
+
+La lettura delle immagini, in una dimensione ulteriore rispetto a quella poetica/curatoriale, ci permetterà non solo di avere sotto forma di dati le emotività e gestualità che costruiranno la performatività, ma anche di applicare eventuali generazioni audio/visive contaminanti della performance. Ciò aiuterà gli artisti visivi a entrare in un’ottica dialogativa con le nuove tecnologie, “costringendoli” a trovare forme di contaminazione capaci di allargare le prospettive poetiche immaginate.
+
+Sicuramente “contaminazione” è tra le parole chiave che descrivono al meglio il progetto, e l’obiettivo è che avvenga in ogni layer del processo creativo.
+
+Sulla linea braidottiana, con un rimando alla traduzione italiana del sottotitolo di “Chthulucene”, viviamo in un pianeta infetto, e quell’infezione ha una dimensione antropomorfa: siamo noi a dover trasformare l’accezione della contaminazione da negativa a positiva, per alimentare la potentia della nostra performatività nella materializzazione contemporanea.
+
+**
