@@ -11,14 +11,15 @@ const path = require('path');
 const crypto = require('crypto');
 const sgMail = require('@sendgrid/mail');
 
-// --- CONFIGURAZIONE DATABASE (MODIFICATA PER DEPLOYMENT) ---
-const isProduction = process.env.NODE_ENV === 'production';
-
+// --- CONFIGURAZIONE DATABASE (SEMPLIFICATA PER DEPLOYMENT) ---
 const pool = new Pool({
-    connectionString: isProduction ? process.env.DB_URL : `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`,
-    ssl: isProduction ? { rejectUnauthorized: false } : false
+    // Usa sempre la stringa di connessione da DB_URL, sia in locale che su Render.
+    connectionString: process.env.DB_URL,
+    // Abilita SSL se la stringa di connessione lo richiede (come fa Render).
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
-
 
 // --- INIZIALIZZAZIONE EXPRESS ---
 const app = express();
@@ -37,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // --- CONFIGURAZIONE PASSPORT.JS PER GOOGLE OAUTH ---
-// Prima della strategia, definisci l'URL del tuo server
 const SERVER_URL = process.env.NODE_ENV === 'production' 
     ? 'https://compost-project.onrender.com' // Il tuo URL di Render
     : `http://localhost:${port}`;
@@ -48,19 +48,19 @@ passport.use(new GoogleStrategy({
     // Usa l'URL completo per il callback
     callbackURL: `${SERVER_URL}/api/auth/google/callback`
   },
-  // ... il resto della tua funzione async non cambia ...
-));
   async (accessToken, refreshToken, profile, done) => {
     try {
         let userResult = await pool.query('SELECT * FROM users WHERE google_id = $1', [profile.id]);
         let user = userResult.rows[0];
         if (user) { return done(null, user); }
+
         userResult = await pool.query('SELECT * FROM users WHERE email = $1', [profile.emails[0].value]);
         user = userResult.rows[0];
         if (user) {
             const updatedUserResult = await pool.query('UPDATE users SET google_id = $1 WHERE email = $2 RETURNING *', [profile.id, profile.emails[0].value]);
             return done(null, updatedUserResult.rows[0]);
         }
+
         const newUserResult = await pool.query('INSERT INTO users (email, google_id) VALUES ($1, $2) RETURNING *', [profile.emails[0].value, profile.id]);
         return done(null, newUserResult.rows[0]);
     } catch (err) {
@@ -381,4 +381,3 @@ app.post('/api/admin/moderate-node', adminAuthMiddleware, async (req, res) => {
 app.listen(port, () => {
     console.log(`✅ Server in ascolto su http://localhost:${port}`);
 });
-
