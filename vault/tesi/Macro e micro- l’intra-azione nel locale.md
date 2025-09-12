@@ -1,11 +1,9 @@
 
 [[Intra-azione diffrazionale]] [[La diffrazione]] [[Compost]] [[L'entanglement e l'intra-azione]]
 
-Come dicono le femministe: bisogna pensare globale, ma agire locale.
+**
 
-(Rosi Braidotti, Nomadic Theory: The Portable Rosi Braidotti, Columbia University Press, New York 2011, p. 4.)
-
-L’intra-azione è un metodo, una modalità che potrebbe cambiare l’approccio esistenziale che intratteniamo con agenti non antropici e con le stesse pratiche antropiche con cui descriviamo il circostante.
+L’intra-azione è un metodo, una modalità che potrebbe cambiare l’approccio esistenziale che intratteniamo con agenti non antropici e con le stesse pratiche antropiche con cui descriviamo i fenomeni.
 
 Le pratiche intra-attive comportano una dimensione spaziale e una temporale. Queste dimensioni, collidendo, contestualizzano la materialità in una determinata spazialità temporale. L’impatto di queste collisioni comporta la creazione di molte delle dinamiche che scrivono il mondo contemporaneo.
 
@@ -57,15 +55,7 @@ In questi termini, intra-agire implica avere una visione relativa/relazionale de
 
 Questa separazione analitica dunque prescinde dall’unità ontologica. È funzionale per rendere più pragmatico il processo di azioni e di consapevolezze delle dimensioni in cui si sta agendo e come queste azioni si proiettino in modo diffrazionale da una dimensione all’altra. Non vivono in due contenitori differenti, ma sono configurazioni contingenti di un’unica realtà relazionale.
 
-Micro e macro, in definitiva, si manifestano in modo vicendevole, determinandosi in questo continuo scambio intra-attivo.
-
-  
-
-Il dinamismo della materia è generativo non solo nel senso di portare nuove cose nel mondo, ma nel senso di far nascere nuovi mondi, di impegnarsi in una continua riconfigurazione del mondo. I corpi non prendono semplicemente posto nel mondo. Non sono semplicemente situati o localizzati in particolari ambienti. Piuttosto, gli "ambienti" e i "corpi" sono intra-attivamente co-costituiti. I corpi ('umani, 'ambientali' o altro) sono 'parti' integrali o riconfigurazioni dinamiche di ciò che è.
-
-(Cfr. Barad, op. cit., p. 170)
-
-  
+Micro e macro, in definitiva, si manifestano in modo vicendevole, determinandosi in questo continuo scambio intra-attivo.  
 
 Partendo da questa consapevolezza, possiamo definire che le attività quotidiane diventano così luoghi di negoziazione sovra-locali? Porre scissioni che agevolino l’analisi delle dimensioni può generare confusione ontologica ed epistemologica? Come possiamo costruire una intra-azione che possa trasformare attivamente la contemporaneità partendo dal locale? Un lavoro collettivo nel locale può effettivamente modellare la quotidianità nonostante questa collettività non possa essere utopicamente omnicomprensiva? A fronte delle analisi fatte, l'intra-azione locale è effettivamente la dimensione della possibilità trasformativa della politica? È uno strumento di resistenza a quelle forze che pretendono che il mondo, guardando al passato, appaia statico piuttosto che con un occhio che cerca una trasformazione futura?
 
@@ -73,7 +63,7 @@ Sicuramente un’azione attiva nel locale può aiutare ad alimentare un processo
 
 Ma che strade tracciare localmente? Quali sono i possibili spazi dove il potenziale del vuoto presente può generare una scintilla di energia che ci proietti in un futuro più consapevole? 
 
-Le associazioni che operano nei quartieri, gli orti popolari, i dialoghi interculturali permettono di vanificare forze gentrificatrici che tendono ad allontanare le persone e ad avvicinarle su una base classista contemporanea. Chi lavora attivamente nei quartieri, chi si attiva nell’aprire nuovi spazi colloquiali che permettono di vivere una inter-socialità che aspira alla definizione contemporanea "safe", chi si impegna quotidianamente in favore degli ultimi dei dimenticati (materia e soggetti non umani compresi) sta provando dal basso a rimodellare la contemporaneità. Questa spinta può essere utilizzata nei contesti socio-culturali quanto in contesti specifici.
+Pratiche come le associazioni di quartiere, gli orti popolari e i dialoghi interculturali, che mirano a vanificare le forze gentrificatrici, non sono gesti isolati ma si inseriscono in una genealogia di pratiche artistiche e politiche che legano l'azione locale alla critica sistemica. Un precedente storico fondamentale, ad esempio, si trova nell'opera di Gianfranco Baruchello che, già nel 1973 con il progetto Agricola Cornelia, utilizzava l'agricoltura come strumento per una critica radicale alla proprietà terriera e alle logiche del sistema dell'arte, anticipando molte delle attuali istanze di riappropriazione comunitaria dello spazio. Chi lavora attivamente nei quartieri, chi si attiva nell’aprire nuovi spazi colloquiali che permettono di vivere una inter-socialità che aspira alla definizione contemporanea "safe", chi si impegna quotidianamente in favore degli ultimi dei dimenticati (materia e soggetti non umani compresi) sta provando dal basso a rimodellare la contemporaneità. Questa spinta può essere utilizzata nei contesti socio-culturali quanto in contesti specifici.
 
 Intra-agire nel locale ha una dimensione etica che comporta consapevolezza dei (s)oggetti coinvolti e di un utilizzo delle pratiche discorsive che possano materializzare reti di relazioni che si intrecciano e si alimentano vicendevolmente.
 

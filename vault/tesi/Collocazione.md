@@ -3,6 +3,8 @@
 
 **
 
+**
+
 Diventare “Compost” significa assumere una posizione, accogliere radicalismi per cambiare rotta e immaginare nuove infrastrutture. Questa porzione dichiara esplicitamente la nostra collocazione nella contemporaneità.  
 L’infrastruttura metodologica creata richiama implicitamente la posizionalità del progetto: nomade e mutevole come le metodologie usate, diffrattiva e intra-attiva, comportante relazioni inevitabili tra posizioni assunte.  
 L’analisi precedente è sintetizzabile per chiarezza e accessibilità fruitiva.  

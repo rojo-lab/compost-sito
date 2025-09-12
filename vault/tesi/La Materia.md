@@ -1,10 +1,6 @@
 [[Diventare Materia]]
 
-Bohr risolse il paradosso della dualità onda-particella come segue: ''onda'' e ''particella'' sono concetti de- scriventi classici che si riferiscono a fenomeni differenti che si escludono a vicenda, non a oggetti fisici indipendenti. Sottolineò che questo salvava la teoria quantistica dalle incongruenze, poiché è impossibile osservare simultaneamente i comportamenti delle particelle e delle onde, in quanto sono necessarie disposizioni sperimentali reciprocamente esclusive. Per collocare il punto in un contesto più moderno, secondo il quadro epistemologico generale di Bohr, la referenzialità deve essere riconcepita: il referente non è un oggetto indipendente dall'osservazione, ma un fenomeno. Questo cambiamento nella referenzialità è una condizione per la possibilità della conoscenza oggettiva. , una condizione per la conoscenza oggettiva è che il referente sia un fenomeno (e non un oggetto indipendente dall'osservazione)
-
-(Cfr. Barad, op. cit., p.198)
-
-  
+**
 
 Come intendere la materia dopo le digressioni precedenti? È viva e mutevole, o fissa e precostituita nella sua composizione chimica?
 
@@ -28,34 +24,18 @@ Diventa interessante, in questa dinamica, analizzare le dimensioni in cui si ins
 
 La materia dunque viene relegata per l’ennesima volta a oggetto lontano dal soggetto che la manipola e dalle pratiche discorsive che la rappresentano, determinandone un inizio e una fine.
 
-Se volessimo analizzare una dinamica simile nel locale, potremmo seguire il processo creativo che porta alla produzione di capi autoprodotti con grafiche replicate in serie. In questa dimensione, possiamo creare punti di svolta che mirino a rimodellare l’idea della produzione seriale e commercializzabile senza ridurre la materia a mero strumento di profitto. Le autoproduzioni, che tendono a numeri più contenuti rispetto alla produzione seriale delle fabbriche, alimentano narrazioni che si contrappongono radicalmente a quelle sopracitate. Nelle autoproduzioni è possibile ristampare e rimodellare la materia attraverso tessuti e capi recuperati dall’utilizzo effimero dei prodotti industriali. È possibile mantenere prezzi accessibili e fornire un’utilità che passa da politiche di riutilizzo attente sia alla materia che alle pratiche discorsive che la circoscrivono nella loro temporalità.
+Se volessimo analizzare una dinamica simile nel locale, potremmo osservare il processo creativo che porta alla produzione di capi autoprodotti. A un primo sguardo, questa dimensione appare come un punto di svolta, un tentativo di rimodellare l'idea della produzione seriale sottraendo la materia alla sua riduzione a mero strumento di profitto. Le autoproduzioni, infatti, spesso alimentano narrazioni di sostenibilità e di riappropriazione del lavoro creativo, promuovendo politiche di riutilizzo attraverso il recupero di tessuti e capi industriali.
+
+Tuttavia, un'analisi sociologica più approfondita, come suggerito da studi recenti sul lavoro creativo nelle città post-industriali come Torino, ci impone di superare una lettura meramente oppositiva. Queste scene creative locali sono spesso un campo di tensione ambivalente. Se da un lato rappresentano effettivamente un sito di resistenza alla logica della fast fashion e un tentativo di costruire economie più etiche, dall'altro sono profondamente immerse nelle dinamiche della precarietà contemporanea. L'ethos dell'autoproduzione si intreccia spesso con le pressioni neoliberali all'auto-imprenditorialità, dove la passione e il lavoro creativo si confondono con l'auto-sfruttamento e la necessità di costruire un brand personale per sopravvivere nel mercato. La materia, quindi, pur essendo al centro di pratiche di riutilizzo, rischia di essere reinserita in un ciclo di valorizzazione che, sebbene su scala ridotta, non è del tutto estraneo alle logiche del capitale. Riconoscere questa complessità non significa invalidare il potenziale trasformativo di queste pratiche, ma situarle correttamente all'interno delle contraddizioni del presente.
 
 È chiaro come la materialità venga riconosciuta nelle diverse dimensioni spazio-temporali e come possa assumere molteplici forme – negative o positive – in base al contesto di analisi.
 
 Oltre a una dimensione ontologica, necessitiamo anche di una epistemologica che ci proietti in una riscrittura complessiva della nostra concezione d'uso della materia. Ciò non significa che dobbiamo necessariamente prediligere alcune pratiche rispetto ad altre, ma avere una maggiore consapevolezza di come intra-agiamo insieme può alimentare una narrazione che contribuisca a una trasformazione radicale di questi rapporti.
 
-  
-
-Le osservazioni, gli interventi osservativi, i concetti e le altre pratiche umane hanno un ruolo da svolgere, è come parte della configurazione materiale del mondo nel suo divenire intra-attivo. Gli esseri umani fanno parte dello spazio mondo-corpo nella sua strutturazione dinamica.
-
-C'è un senso importante in cui le pratiche del conoscere non possono essere
-
-pienamente rivendicate come pratiche umane, non semplicemente perché
-
-utilizziamo elementi non umani nelle nostre pratiche, ma perché conoscere è una questione di una parte del mondo che si rende intelligibile a un'altra parte. Le pratiche del conoscere e dell'essere non sono isolabili; sono reciprocamente implicate. Non otteniamo la conoscenza stando fuori dal mondo; conosciamo perché siamo del mondo. Siamo parte del mondo nel suo di√erenziale divenire. La separazione dell'epistemologia dall'ontologia è un riverbero di una metafisica che presuppone una di√erenza intrinseca tra umano e non umano, soggetto e oggetto, mente e corpo, materia e discorso. L'onto-epistemologia - lo studio delle pratiche di conoscenza nell'essere - è probabilmente un modo migliore per pensare al tipo di comprensione di cui abbiamo bisogno per venire a capo dell'importanza
-
-delle azioni interne specifiche.
-
-  
-
-(Cfr. Barad, op. cit., p.185)
-
-  
-
-  
-
 È importante inserire questa onto-epistemologia nelle nostre pratiche artistiche e renderci consapevoli che l’individualismo cronico ha costruito il mondo che ci circonda. Siamo veramente soddisfatti quando osserviamo la contemporaneità in termini sociali, politici o artistici? Possiamo, attraverso le nostre azioni nel locale, trasformare le nostre consapevolezze sulla materialità? Siamo indubbiamente uno dei settori che meno impattano nelle discussioni ecosistemiche, ma secondo noi non possiamo permetterci di non interrogarci su un eventuale disinteresse per sfruttare questa concezione che consideriamo negativa, sollecitando il cambiamento attraverso di essa. Ma da dove dovremmo cominciare per mettere in moto il cambiamento che possa riconcettualizzare la materia su scala globale? Forse dovremmo iniziare a rifiutare le commissioni dedite alla mera decorazione degli spazi privati e urbani, attraverso le quali si alimentano pratiche gentrificanti. Collettivamente forse dovremmo estraniarci da questi processi quando questi fanno leva sulla società attraverso la nostra produzione creativa. Produrre per un senso di necessità personale ha ancora validità, o dovremmo concentrarci sulla necessità delle masse? Argomentare attraverso la materialità questioni principalmente didascaliche, estranee alle necessità sociali, può ancora avere una valenza estetica/concettuale?
 
 Incorniciare la materia entro la concettualità dell’intra-azione fornisce una nuova forma comunicativa alla stessa. Le pratiche curatoriali, ad esempio, in quale spazio rientrano nella produzione della materialità intra-attiva? Bisogna entrare nell’ottica che le pratiche discorsive – nell’ambiente artistico spesso dislocate dall’artista alla curatela – diventano un elemento chiave che definisce la fisicità e dunque la materialità dell’intra-azione che ha portato alla produzione del prodotto. Ciò comporta la necessità di trasformare le consapevolezze non solo da parte dell’artista, ma anche di innovare le pratiche curatoriali, che rimangono in una dimensione lineare/verticale, spesso inconsapevoli della materialità e di come questa si concretizzi attraverso le narrazioni coinvolte nel processo allestitivo/espositivo.
+
+È necessario trovare spunti per trasformare questo meccanismo, permettendo alla materia di diventare la conclusione (indeterminata) del processo di entanglement intra-attivo.
 
 **

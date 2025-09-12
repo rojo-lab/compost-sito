@@ -3,9 +3,10 @@
 
 **
 
-La documentazione è quindi uno strumento chiave per la trasformazione dell’accademismo. Serve a generare meccanismi riflessivi che stimolano il pensiero critico nel contesto delle pratiche discorsive.  
-È un processo che ri-materializza un evento decontestualizzato dalla dimensione in cui si è manifestato e dalla temporalità in cui si è espresso.  
-Nella prima edizione di “Compost”, la documentazione era catalogativa e distaccata; ciò non ha permesso un’analisi approfondita del progetto a posteriori. La documentazione, prevalentemente fotografica, si limitava a cogliere l’estetica della contaminazione dell’individualità partecipante in quel momento. Inseriva la pratica in una linearità temporale legata alla crononormatività, senza costituire uno strumento valido per generare pratiche discorsive materializzanti.  
+**
+
+La documentazione è quindi uno strumento chiave per la trasformazione dell’accademismo. Serve a generare meccanismi riflessivi che stimolano il pensiero critico nel contesto delle pratiche discorsive. È un processo che ri-materializza un evento decontestualizzato dalla dimensione in cui si è manifestato e dalla temporalità in cui si è espresso.  
+Nella prima edizione di “Compost”, la documentazione era catalogativa e distaccata; ciò non ha permesso un’analisi approfondita del progetto a posteriori. La documentazione, prevalentemente fotografica, si limitava a cogliere l’estetica della contaminazione dell’individualità che prendeva parte al progetto in quel preciso momento. Inseriva la pratica in una linearità temporale legata alla crononormatività, senza costituire uno strumento valido per generare pratiche discorsive materializzanti.  
 La documentazione è vitale nel processo di esplicitazione delle pratiche performative.  
 La normatività artistica tende a rivelare meno informazioni possibili sulle “opere d’arte”, lasciandole nella nube delle informazioni implicite che emergono solo in base all’educazione dell’individualità nella lettura delle immagini.  
 Esplicitare la proceduralità delle pratiche fornisce consapevolezza a chi le osserva e rende la produzione artistica non solo più “scientifica” ma anche più accessibile.  

@@ -1,15 +1,15 @@
 
 [[Materialità Digitale]] [[Essere Minoranza]] [[La Materia]] [[Diventare Materia]]
 
+**
+
 La materia costituisce una minoranza; è parte e prodotto della relazionalità intra-attiva e si costituisce nello spazio-tempo attraverso l’intreccio passato/presente/futuro degli agenti che intra-agiscono. È tattile e astratta/digitale, e necessita di una metodologia nuova che possa essere fisicamente e metaforicamente rappresentativa della sua indeterminazione fluida. Tale metodologia deve strutturarsi su un sistema non binario che rifiuta le strette dicotomie.
 
 Il punto di partenza per definirla è trasformare il sistema dicotomico radicato nel pensiero occidentale – che attraverso la globalizzazione ha infettato il resto del pianeta – in forme che colgano al meglio la concatenazione ideologica supportante il nostro progetto.
 
 Nella tradizione filosofica occidentale, il pensiero è sempre stato strutturato in una metodologia fondata su opposizioni binarie: soggetto/oggetto; natura/cultura; umano/non umano; attivo/passivo; bene/male.
 
-La dicotomia facilita illusoriamente l’analisi dei contesti, ponendo la natura dei confronti in una forma oppositiva che chiude la realtà in sfere micro-sistemiche contenenti solo argomentazioni oppositive.
-
-Rappresenta un processo analitico che prescinde dalle sfumature cromatiche intercorrenti tra bianco e nero. Queste rappresentano le differenze che costituiscono una minoranza – metaforicamente definite sfumature, ma analiticamente vere e proprie diffrazioni che si concatenano generando una serie di differenze co-costituite.
+La dicotomia facilita illusoriamente l’analisi dei contesti, ponendo la natura dei confronti in una forma oppositiva che chiude la realtà in sfere micro-sistemiche contenenti solo argomentazioni oppositive. Rappresenta un processo analitico che prescinde dalle sfumature cromatiche intercorrenti tra bianco e nero. Queste rappresentano le differenze che costituiscono una minoranza – metaforicamente definite sfumature, ma analiticamente vere e proprie diffrazioni che si concatenano generando una serie di differenze co-costituite.
 
 Nel quadro storico della filosofia occidentale, la minoranza potrebbe superficialmente definirsi per mera opposizione alla maggioranza nelle logiche identitarie e della differenza con l’alterità.
 
@@ -19,7 +19,7 @@ Dovremmo definire nuovi schemi identitari? Quali sono gli aspetti metodologici c
 
 Attraverso un’analisi dettagliata dei fattori che compongono l’intra-azione materica, vorremmo costruire una metodologia collettiva che possa davvero avvalersi della collettività nella stesura.
 
-Rosi Braidotti, attraverso il suo modello nomadico, offre ottimi spunti per definire un’identità minoraria che non è descrivibile come negazione o reazione di una maggioranza, ma come differenza in divenire nella temporalità.
+Rosi Braidotti, attraverso il suo modello nomadico, offre ottimi spunti per definire un’identità minoritaria che non è descrivibile come negazione o reazione di una maggioranza, ma come differenza in divenire nella temporalità.
 
 L’identità è divenire; per definirla poeticamente, appoggiandoci a Eraclito, non siamo mai la stessa persona che eravamo un secondo prima.
 
@@ -39,8 +39,6 @@ Il metodo può strutturarsi in una forma intelligibile, ma dovrà trasformarsi i
 
 La volontà di analizzare ogni argomento chiave attraverso le sue assonanze nelle dimensioni politiche, sociali e individuali ci permette di definire una collettività di partenza che percepisce tali analisi vicine alla propria visione del mondo. La volontà di fornire un modello metodologico indeterminato e temporalmente trasformativo agevola la sperimentazione analitica e metodologica, garantendo la riscrittura di nuove “vie percorribili”.
 
-Il metodo diffrattivo garantisce una reversibilità metodologica capace di far dialogare le differenze senza che si annullino o contrappongano, supportando la libertà di intra-azione e di muto coinvolgimento.
-
 La potenzialità della riscrittura che non annulla il pregresso procedurale permette una reversibilità delle scritture future in funzione del gruppo di inter(s)oggettività coinvolto. Ciò significa che l’aspetto metodologico potrebbe subire lievi o profonde trasformazioni in base al contesto sociale d'inserimento.
 
 Questo approccio garantisce la fertilità del sistema dell’“essere minoranza” e delle discorsività che ne fuoriescono. Trasforma la posizione dialogica attraverso le relazioni appartenenti all’entanglement, rifiutando quella meramente oppositiva.
@@ -59,15 +57,10 @@ Così, la reversibilità metodologica diventa una pratica d'apertura e contamina
 
 La reversibilità metodologica descritta richiama il concetto di lettura minore. Deterritorializza il linguaggio artistico e lo rimodella in funzione di una trasformazione della scrittura e, conseguentemente, della lettura di un’immagine. Essere materia comporta volersi immedesimare nelle dinamiche di una minoranza per esprimere una realtà politica e sociale differente da quella normativa. La politicizza, inserendola in una dimensione collettiva in cui l’esperienza individuale è funzionale alla trasformazione sociale normativa.
 
-Situare una metodologia minore che utilizzi un linguaggio comune in una forma nuova fornisce alla materialità una forma performativa, affettiva, neo-materialista e dichiaratamente non binaria. Questo tipo di reversibilità non contrappone; piuttosto, si piega, si adatta, si ibrida e diviene attraverso e con l’alterità.
-
 Questa reversibilità metodologica necessita di un’esplicitazione scritta che la renda universalmente intelligibile, o deve rifiutare anche questa configurazione normativa? L’eventuale scrittura o divulgazione verbale rischia di generare un sistema di regole che la ratio umana tenterà di staticizzare, o flessibilità e divenire possono “sopravvivere” a tale esplicitazione? Come dovremmo incanalare eventuali scontri d'idee affinché non assumano forme oppositive? In che modo la strutturazione metodologica situata e collettiva dovrà costruirsi? Durante la proceduralità del progetto, o in modalità preventiva, riscrivibile in funzione di come il sistema diffrattivo concatenerà gli eventi procedurali?
 
-Le assonanze con le modalità pratiche che intendiamo intraprendere con “Compost” sono evidenti. Le analisi pregresse offrono un possibile quadro metodologico che andrà rimodellato nelle sue sfumature dalla collettività partecipante al progetto. Attraverso “Compost”, possiamo importare questa definizione teorico-metodologica in una dimensione pratica e, mediante la praxis, rendere mutuo lo scambio tra teoria e pratica.
+Le analisi pregresse offrono un possibile quadro metodologico che andrà rimodellato nelle sue sfumature dalla collettività partecipante al progetto. Attraverso “Compost”, possiamo importare questa definizione teorico-metodologica in una dimensione pratica e, mediante la praxis, rendere mutuo lo scambio tra teoria e pratica.
 
 In “Compost”, lo spazio delimitato diviene uno spazio dove la materia performa la sua agency intra-attiva, contamina ed è contaminata dalla performatività della molteplicità, fuoriuscendo da ogni dinamica di centralità e opposizione.
-
-  
-
 
 **

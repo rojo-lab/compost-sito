@@ -1,6 +1,10 @@
 
 [[Reversibilità Metodologica]] [[Essere Minoranza]] [[Materialità Digitale]] [[La Materia]] [[Diventare Materia]]
 
+**
+
+**
+
 Attraverso la reversibilità metodologica, abbiamo provato a destrutturare l’approccio oppositivo e duale del sapere. Inserendo la simpoiesi tra le discorsività chiave dei dialoghi sulla materia, intendiamo fare un salto onto-epistemologico, poiché diventa un dispositivo di rinuncia dell’autorialità individuale. La simpolesi non è solo una conseguenza metodologica: supporta l’argomentazione secondo cui nessun sistema vivente o cognitivo si produce da solo.
 
 Ciò prova a dimostrare che l’entanglement non è una semplice relazione tra elementi preesistenti, ma la condizione stessa della loro emergenza reciproca. In quest’ottica, la simpolesi intra-attiva non è riducibile a una tecnica o a una strategia, poiché genera un assetto epistemico/esistenziale tangibile.
@@ -18,5 +22,8 @@ Ciò definisce il progetto come un vero e proprio atto simpoietico che considera
 In questi termini, essere minoranza muta la dimensione oppositiva in una co-trasformazione. La chiave di lettura generata vede la simpoiesi risuonare nel divenire minoranza perché afferma le differenze in una dimensione qualitativa senza fissarle e basa la narrazione sulla continua trasformazione attraverso l’altro. Non esiste una minoranza senza relazioni e senza mutuo coinvolgimento.
 
 Così, la politica del minoritario e l’ontologia della simpolesi convergono: sono entrambe rifiuto della clausura identitaria e apertura alla molteplicità co-emergente. Ciò fa sì che il sistema simpoietico diventi sia punto d'arrivo che di partenza in uno schema che supporta la circolarità del pensiero.
+
+  
+
 
 **
