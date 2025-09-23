@@ -88,7 +88,6 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-
 // --- MIDDLEWARE DI AUTENTICAZIONE JWT ---
 const authMiddleware = (req, res, next) => {
     const authHeader = req.header('Authorization');
@@ -137,12 +136,39 @@ app.get('/api/graph', async (req, res) => {
 // --- ROUTE AUTENTICAZIONE ---
 app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
+// ROTTA DI CALLBACK GOOGLE "PARANOICA" E CORRETTA
 app.get('/api/auth/google/callback', 
-    passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/index.html` }),
-    (req, res) => {
-        const payload = { user: { id: req.user.id, email: req.user.email, role: req.user.role } };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.redirect(`${process.env.FRONTEND_URL}/index.html?token=${token}`);
+    passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/index.html?error=google_failed` }),
+    async (req, res) => {
+        try {
+            // L'utente viene autenticato da Passport
+            const passportUser = req.user;
+
+            // FORZIAMO LA RI-LETTURA DAL DATABASE per essere sicuri al 100%
+            console.log(`[AUTH] Utente ${passportUser.email} autenticato. Rieffettuo la lettura dal DB per garantire il ruolo corretto...`);
+            
+            const freshUserResult = await pool.query('SELECT * FROM users WHERE id = $1', [passportUser.id]);
+            
+            if (freshUserResult.rows.length === 0) {
+                // Questo non dovrebbe mai accadere, ma è una sicurezza in più
+                console.error(`[AUTH-ERROR] Utente con ID ${passportUser.id} non trovato nel DB dopo l'autenticazione.`);
+                return res.redirect(`${process.env.FRONTEND_URL}/index.html?error=user_not_found`);
+            }
+
+            const freshUser = freshUserResult.rows[0];
+            console.log(`[AUTH] Ruolo letto dal DB: '${freshUser.role}'. Creo il token...`);
+
+            // Creiamo il payload usando i dati FRESCHI dal database
+            const payload = { user: { id: freshUser.id, email: freshUser.email, role: freshUser.role } };
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+            
+            // Reindirizziamo l'utente al frontend con il token corretto
+            res.redirect(`${process.env.FRONTEND_URL}/index.html?token=${token}`);
+
+        } catch (error) {
+            console.error("❌ Errore durante la creazione del token nel callback di Google:", error);
+            res.redirect(`${process.env.FRONTEND_URL}/index.html?error=token_creation_failed`);
+        }
     }
 );
 
@@ -265,22 +291,15 @@ app.post('/api/bug-report', authMiddleware, async (req, res) => {
     }
 });
 
-// =================================================================
-// === SEZIONE CORRETTA ============================================
-// =================================================================
+// SEZIONE CORRETTA PER LA CREAZIONE DEI NODI
 app.post('/api/nodes', authMiddleware, async (req, res) => {
-    // Estrae titolo, contenuto e TIPO dal corpo della richiesta
     const { title, content, type } = req.body;
     const userId = req.user.id;
-
-    // Aggiunge un controllo per assicurarsi che il tipo sia valido
     const allowedTypes = ['nota', 'autore', 'domanda', 'risposta', 'contributo'];
     if (!title || !content || !type || !allowedTypes.includes(type)) {
         return res.status(400).json({ message: 'Titolo, contenuto e un tipo di nodo valido sono obbligatori.' });
     }
-
     try {
-        // Usa il 'type' ricevuto dal frontend nell'inserimento
         const result = await pool.query(
             `INSERT INTO nodes (title, content, type, status, author_id) VALUES ($1, $2, $3, 'pending', $4) RETURNING id`, 
             [title, content, type, userId]
@@ -291,10 +310,6 @@ app.post('/api/nodes', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Errore interno del server.' });
     }
 });
-// =================================================================
-// === FINE SEZIONE CORRETTA =======================================
-// =================================================================
-
 
 app.get('/api/me/history', authMiddleware, async (req, res) => {
     try {
