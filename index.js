@@ -42,7 +42,6 @@ const SERVER_URL = process.env.NODE_ENV === 'production'
     ? 'https://compost-project.onrender.com' // Il tuo URL di Render
     : `http://localhost:${port}`;
 
-// VERSIONE CORRETTA E ROBUSTA DELLA STRATEGIA GOOGLE
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -53,18 +52,13 @@ passport.use(new GoogleStrategy({
     const googleId = profile.id;
 
     try {
-        // 1. Cerca l'utente tramite google_id. Questo è il caso più comune dopo il primo login.
         let userResult = await pool.query('SELECT * FROM users WHERE google_id = $1', [googleId]);
         if (userResult.rows.length > 0) {
-            console.log(`✅ Utente trovato tramite Google ID: ${email}`);
             return done(null, userResult.rows[0]);
         }
 
-        // 2. Se non trovato, cerca l'utente tramite email. Potrebbe esistere un account creato con password.
         userResult = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         if (userResult.rows.length > 0) {
-            console.log(`🔗 Account esistente trovato per email: ${email}. Collegamento con Google ID in corso...`);
-            // Collega il google_id all'account esistente senza toccare il ruolo.
             const existingUser = userResult.rows[0];
             const updatedUserResult = await pool.query(
                 'UPDATE users SET google_id = $1 WHERE id = $2 RETURNING *',
@@ -73,20 +67,18 @@ passport.use(new GoogleStrategy({
             return done(null, updatedUserResult.rows[0]);
         }
 
-        // 3. Se l'utente non esiste affatto, creane uno nuovo.
-        console.log(`✨ Creazione nuovo utente per: ${email}`);
         const newUserResult = await pool.query(
             'INSERT INTO users (email, google_id, role) VALUES ($1, $2, $3) RETURNING *',
-            [email, googleId, 'user'] // Il nuovo utente ha ruolo 'user' di default
+            [email, googleId, 'user']
         );
         return done(null, newUserResult.rows[0]);
 
     } catch (err) {
-        console.error("❌ Errore durante la strategia Google OAuth:", err);
         return done(err, null);
     }
   }
 ));
+
 
 // --- MIDDLEWARE DI AUTENTICAZIONE JWT ---
 const authMiddleware = (req, res, next) => {
@@ -136,33 +128,38 @@ app.get('/api/graph', async (req, res) => {
 // --- ROUTE AUTENTICAZIONE ---
 app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// ROTTA DI CALLBACK GOOGLE "PARANOICA" E CORRETTA
+
+// =================================================================================
+// === UNICA SEZIONE MODIFICATA: Aggiunto logging di debug alla callback di Google ===
+// =================================================================================
 app.get('/api/auth/google/callback', 
     passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/index.html?error=google_failed` }),
     async (req, res) => {
         try {
-            // L'utente viene autenticato da Passport
             const passportUser = req.user;
-
-            // FORZIAMO LA RI-LETTURA DAL DATABASE per essere sicuri al 100%
-            console.log(`[AUTH] Utente ${passportUser.email} autenticato. Rieffettuo la lettura dal DB per garantire il ruolo corretto...`);
+            console.log(`[AUTH-DEBUG] Utente autenticato da Passport: ID ${passportUser.id}, Email ${passportUser.email}`);
             
             const freshUserResult = await pool.query('SELECT * FROM users WHERE id = $1', [passportUser.id]);
             
             if (freshUserResult.rows.length === 0) {
-                // Questo non dovrebbe mai accadere, ma è una sicurezza in più
-                console.error(`[AUTH-ERROR] Utente con ID ${passportUser.id} non trovato nel DB dopo l'autenticazione.`);
+                console.error(`[AUTH-DEBUG-ERROR] Utente con ID ${passportUser.id} non trovato nel DB dopo l'autenticazione!`);
                 return res.redirect(`${process.env.FRONTEND_URL}/index.html?error=user_not_found`);
             }
 
             const freshUser = freshUserResult.rows[0];
-            console.log(`[AUTH] Ruolo letto dal DB: '${freshUser.role}'. Creo il token...`);
+            
+            // =================================================================
+            // LOG DI DEBUG CRITICO
+            // =================================================================
+            console.log("!!!!!!!!!! DEBUGGING JWT PAYLOAD !!!!!!!!!!");
+            console.log("Oggetto utente letto dal DB:", freshUser);
+            console.log(`Ruolo che sta per essere inserito nel token: '${freshUser.role}'`);
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            // =================================================================
 
-            // Creiamo il payload usando i dati FRESCHI dal database
             const payload = { user: { id: freshUser.id, email: freshUser.email, role: freshUser.role } };
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
             
-            // Reindirizziamo l'utente al frontend con il token corretto
             res.redirect(`${process.env.FRONTEND_URL}/index.html?token=${token}`);
 
         } catch (error) {
@@ -171,6 +168,9 @@ app.get('/api/auth/google/callback',
         }
     }
 );
+// =================================================================
+// === FINE SEZIONE MODIFICATA =======================================
+// =================================================================
 
 app.post('/api/auth/register', async (req, res) => {
     const { email, password } = req.body;
@@ -291,7 +291,6 @@ app.post('/api/bug-report', authMiddleware, async (req, res) => {
     }
 });
 
-// SEZIONE CORRETTA PER LA CREAZIONE DEI NODI
 app.post('/api/nodes', authMiddleware, async (req, res) => {
     const { title, content, type } = req.body;
     const userId = req.user.id;
