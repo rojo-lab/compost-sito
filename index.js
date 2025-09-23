@@ -42,32 +42,52 @@ const SERVER_URL = process.env.NODE_ENV === 'production'
     ? 'https://compost-project.onrender.com' // Il tuo URL di Render
     : `http://localhost:${port}`;
 
+// VERSIONE CORRETTA E ROBUSTA DELLA STRATEGIA GOOGLE
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // Usa l'URL completo per il callback
     callbackURL: `${SERVER_URL}/api/auth/google/callback`
   },
   async (accessToken, refreshToken, profile, done) => {
-    try {
-        let userResult = await pool.query('SELECT * FROM users WHERE google_id = $1', [profile.id]);
-        let user = userResult.rows[0];
-        if (user) { return done(null, user); }
+    const email = profile.emails[0].value;
+    const googleId = profile.id;
 
-        userResult = await pool.query('SELECT * FROM users WHERE email = $1', [profile.emails[0].value]);
-        user = userResult.rows[0];
-        if (user) {
-            const updatedUserResult = await pool.query('UPDATE users SET google_id = $1 WHERE email = $2 RETURNING *', [profile.id, profile.emails[0].value]);
+    try {
+        // 1. Cerca l'utente tramite google_id. Questo è il caso più comune dopo il primo login.
+        let userResult = await pool.query('SELECT * FROM users WHERE google_id = $1', [googleId]);
+        if (userResult.rows.length > 0) {
+            console.log(`✅ Utente trovato tramite Google ID: ${email}`);
+            return done(null, userResult.rows[0]);
+        }
+
+        // 2. Se non trovato, cerca l'utente tramite email. Potrebbe esistere un account creato con password.
+        userResult = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (userResult.rows.length > 0) {
+            console.log(`🔗 Account esistente trovato per email: ${email}. Collegamento con Google ID in corso...`);
+            // Collega il google_id all'account esistente senza toccare il ruolo.
+            const existingUser = userResult.rows[0];
+            const updatedUserResult = await pool.query(
+                'UPDATE users SET google_id = $1 WHERE id = $2 RETURNING *',
+                [googleId, existingUser.id]
+            );
             return done(null, updatedUserResult.rows[0]);
         }
 
-        const newUserResult = await pool.query('INSERT INTO users (email, google_id) VALUES ($1, $2) RETURNING *', [profile.emails[0].value, profile.id]);
+        // 3. Se l'utente non esiste affatto, creane uno nuovo.
+        console.log(`✨ Creazione nuovo utente per: ${email}`);
+        const newUserResult = await pool.query(
+            'INSERT INTO users (email, google_id, role) VALUES ($1, $2, $3) RETURNING *',
+            [email, googleId, 'user'] // Il nuovo utente ha ruolo 'user' di default
+        );
         return done(null, newUserResult.rows[0]);
+
     } catch (err) {
+        console.error("❌ Errore durante la strategia Google OAuth:", err);
         return done(err, null);
     }
   }
 ));
+
 
 // --- MIDDLEWARE DI AUTENTICAZIONE JWT ---
 const authMiddleware = (req, res, next) => {
@@ -118,12 +138,12 @@ app.get('/api/graph', async (req, res) => {
 app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/api/auth/google/callback', 
-  passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/index.html` }),
-  (req, res) => {
-    const payload = { user: { id: req.user.id, email: req.user.email, role: req.user.role } };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.redirect(`${process.env.FRONTEND_URL}/index.html?token=${token}`);
-  }
+    passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/index.html` }),
+    (req, res) => {
+        const payload = { user: { id: req.user.id, email: req.user.email, role: req.user.role } };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.redirect(`${process.env.FRONTEND_URL}/index.html?token=${token}`);
+    }
 );
 
 app.post('/api/auth/register', async (req, res) => {
@@ -245,18 +265,36 @@ app.post('/api/bug-report', authMiddleware, async (req, res) => {
     }
 });
 
+// =================================================================
+// === SEZIONE CORRETTA ============================================
+// =================================================================
 app.post('/api/nodes', authMiddleware, async (req, res) => {
-    const { title, content } = req.body;
+    // Estrae titolo, contenuto e TIPO dal corpo della richiesta
+    const { title, content, type } = req.body;
     const userId = req.user.id;
-    if (!title || !content) return res.status(400).json({ message: 'Titolo e contenuto sono obbligatori.' });
+
+    // Aggiunge un controllo per assicurarsi che il tipo sia valido
+    const allowedTypes = ['nota', 'autore', 'domanda', 'risposta', 'contributo'];
+    if (!title || !content || !type || !allowedTypes.includes(type)) {
+        return res.status(400).json({ message: 'Titolo, contenuto e un tipo di nodo valido sono obbligatori.' });
+    }
+
     try {
-        const result = await pool.query(`INSERT INTO nodes (title, content, type, status, author_id) VALUES ($1, $2, 'utente', 'pending', $3) RETURNING id`, [title, content, userId]);
+        // Usa il 'type' ricevuto dal frontend nell'inserimento
+        const result = await pool.query(
+            `INSERT INTO nodes (title, content, type, status, author_id) VALUES ($1, $2, $3, 'pending', $4) RETURNING id`, 
+            [title, content, type, userId]
+        );
         res.status(201).json({ message: 'Contributo ricevuto! Sarà revisionato a breve.', node: result.rows[0] });
     } catch (err) {
         console.error('❌ Errore POST /api/nodes:', err);
         res.status(500).json({ message: 'Errore interno del server.' });
     }
 });
+// =================================================================
+// === FINE SEZIONE CORRETTA =======================================
+// =================================================================
+
 
 app.get('/api/me/history', authMiddleware, async (req, res) => {
     try {
@@ -285,7 +323,7 @@ app.post('/api/me/history', authMiddleware, async (req, res) => {
 
 app.get('/api/me/contributions', authMiddleware, async (req, res) => {
     try {
-        const result = await pool.query("SELECT title, content, status FROM nodes WHERE author_id = $1 ORDER BY created_at DESC", [req.user.id]);
+        const result = await pool.query("SELECT title, content, status, type FROM nodes WHERE author_id = $1 ORDER BY created_at DESC", [req.user.id]);
         res.json(result.rows);
     } catch (err) {
         console.error('❌ Errore GET /api/me/contributions:', err);
