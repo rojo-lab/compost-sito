@@ -23,6 +23,10 @@
             --error-color: #FF4136;
             --success-color: #3D9970;
             --highlight-color: #FFD700;
+            /* --- IMPLEMENTAZIONE: Nuovi colori per legenda e nodi --- */
+            --domanda-color: #ADFF2F; /* Verde */
+            --risposta-color: #4285F4; /* Blu */
+            --contributo-color: #9370DB; /* Viola */
         }
 
         body, html {
@@ -62,6 +66,10 @@
         .node.nota { color: var(--nota-color); }
         .node.utente { color: var(--utente-color); }
         .node.autore { color: var(--autore-color); } 
+        /* --- IMPLEMENTAZIONE: Nuove classi per i nodi --- */
+        .node.domanda { color: var(--domanda-color); }
+        .node.risposta { color: var(--risposta-color); }
+        .node.contributo { color: var(--contributo-color); }
         .node.visited { color: var(--visited-color); stroke: #999; }
         .node-label {
             fill: var(--text-muted); font-size: 10px; pointer-events: none;
@@ -178,10 +186,6 @@
         #header-logo-container {
             width: 120px;
             height: 120px;
-            /* --- CORREZIONE PERCORSO IMMAGINE --- */
-            /* Un percorso locale (C:\...) non funziona in un browser. */
-            /* Questo percorso relativo funzionerà se l'immagine si trova */
-            /* nella stessa cartella (es. 'public') del file HTML. */
             background-image: url('compost-logo-expanded.jpg');
             background-size: cover;
             background-position: center;
@@ -238,6 +242,10 @@
         .popup-window.nota .popup-content h1 { color: var(--nota-color); }
         .popup-window.utente .popup-content h1 { color: var(--utente-color); }
         .popup-window.autore .popup-content h1 { color: var(--autore-color); }
+        /* --- IMPLEMENTAZIONE: Colori titolo per nuovi tipi di popup --- */
+        .popup-window.domanda .popup-content h1 { color: var(--domanda-color); }
+        .popup-window.risposta .popup-content h1 { color: var(--risposta-color); }
+        .popup-window.contributo .popup-content h1 { color: var(--contributo-color); }
 
         .popup-content h3 {
             font-size: 1.1em; font-weight: 700; margin-top: 1.5em; margin-bottom: 1em;
@@ -349,6 +357,9 @@
             pointer-events: none;
             opacity: 0.6;
         }
+        /* Stili per la legenda */
+        .legend-item { display: flex; align-items: center; margin-bottom: 12px; font-size: 1.1em; }
+        .legend-color-box { width: 22px; height: 22px; border-radius: 4px; margin-right: 15px; border: 1px solid rgba(255,255,255,0.4); }
 
         /* MEDIA QUERIES PER RESPONSIVE DESIGN */
         @media (max-width: 768px) {
@@ -465,6 +476,7 @@
         </div>
         
         <div class="main-actions">
+            <button class="action-btn" id="legend-btn">Legenda</button>
             <button class="action-btn" id="signup-btn">Sign Up</button>
             <button class="action-btn" id="login-btn">Log In</button>
             <button class="action-btn" id="contribute-btn">Contribuisci</button>
@@ -518,7 +530,7 @@
         </div>
     </div>
     <div id="team-modal" class="auth-modal-overlay">
-         <div class="auth-modal-content" style="max-width: 600px; text-align: left;">
+        <div class="auth-modal-content" style="max-width: 600px; text-align: left;">
             <button class="auth-modal-close">&times;</button>
             <div class="popup-content" style="padding-top: 0;">
                 <h3 style="text-align: center; font-size: 1.5em; margin-bottom: 1.5em;">Team & Contatti</h3>
@@ -530,23 +542,23 @@
                     <h3>Simone Rocca</h3>
                     <p>Rojo, classe '95 originario di Catanzaro. Creativo poliedrico che spazia dalle arti visive a quelle applicate. Il suo lavoro fonde più pratiche in installazioni multimediali che rappresentano il processo che porta alla loro realizzazione. Negli ultimi anni ha creato un ponte digitale con le metodologie precedenti in modo da ampliare lo spettro di comunicazione del suo lavoro.</p>
                 </div>
-				<div class="bio-section">
+                <div class="bio-section">
                     <h3>Gabriele Provenzano</h3>
                     <p>Gabriele Provenzano (b. 1998), è un artista visivo che attualmente lavora in Italia. Ha studiato grafica d'arte presso l'Accademia di Belle Arti di Firenze e scultura e arti performative a Torino. Ha approfondito queste discipline con un periodo di studio all'Akademii Sztuk Pięknych w Łodzi, in Polonia. Nel corso degli anni ha sviluppato una pratica multidisciplinare che comprende scultura, performance e fotografia. Come artista punta a tradurre l’insieme delle sue esperienze in narrazioni visive e poetiche che servono ad esplorare quello che ama e quello che odia. Assorbe, elabora e crea la forma che ritiene più adatta a rappresentare inevitabilmente il personale, il sociale e l’ambiguo. Il suo lavoro più recente spesso include metafore basate sull'interspecismo contemporaneo ed archeozoologico: crea dei parallelismi con il mondo umano, interrogandosi sui meccanismi relazionali che attuano un processo di appiattimento, omologazione e costrizione dell’individuo e il suo rapporto distopico con gli altri esseri viventi e la natura. Attualmente conta delle mostre in Polonia, Germania e Turchia. Alcune tra le sue esposizioni: <3 >:( :3 curated by Caroline Ellen Liou, bipersonal, @ Fondazione Sandretto Re Rebaudengo, w/ Fondazione Merz, Comitato Fondazione Arte Contemporanea, 2024. VIII Venice international performance art week, performance, @ European Cultural Centre (ECC) Palazzo Mora, Venice, 2023. New Generations 2024 curated by Mucho mas!, Almanac, w/ Cripta747. @ Almanac, group exhibition, Torino, 2023. Carta Rozza curated by Jacopo Benassi, Lunigiana Land Art, @ Villa la Cartiera, group exhibition, Pontremoli, 2022.</p>
                 </div>
-				<div class="bio-section">
+                <div class="bio-section">
                     <h3>Tommaso Merz</h3>
-					<p>Tommaso Merz nasce nel 1995 a Trento. Dopo aver maturato una buona conoscenza nello studio dell’industrial design, decide di cambiare orientamento artistico e frequenta l’Accademia di Belle Arti di Firenze, dove si diploma in arti visive -pittura-, proponendo una tesi sull’arte contemporanea che analizza la pratica memetica nel mondo dell’arte. Attualmente frequenta il corso di laurea magistrale “Spazi e Pratiche del Contemporaneo” all’Accademia Albertina di Belle Arti di Torino. Si dedica alla pratica artistica tramite un approccio concettuale e relazionale, riducendo al minimo il protagonismo tipico del mondo dell’arte e favorendo una più libera commistione tra campi tematici differenti, facendo partecipare nei suoi lavori più persone di diversa estrazione sociale. Questo lato relazionale è sempre accompagnato da una parte più teorica, che prende vita tramite la stesura di testi critici e riflessioni all’interno della sfera sociale e artistica. L’approccio teorico/critico e la predominanza di un rapporto alla sfera artistica incentrato sulla relazione e la partecipazione collettiva, possono essere sicuramente due caratteristiche funzionali al progetto Compost, il quale premia e incentiva un confronto basato su queste caratteristiche.</p>
-					</div>
-					<div class="bio-section">
+                    <p>Tommaso Merz nasce nel 1995 a Trento. Dopo aver maturato una buona conoscenza nello studio dell’industrial design, decide di cambiare orientamento artistico e frequenta l’Accademia di Belle Arti di Firenze, dove si diploma in arti visive -pittura-, proponendo una tesi sull’arte contemporanea che analizza la pratica memetica nel mondo dell’arte. Attualmente frequenta il corso di laurea magistrale “Spazi e Pratiche del Contemporaneo” all’Accademia Albertina di Belle Arti di Torino. Si dedica alla pratica artistica tramite un approccio concettuale e relazionale, riducendo al minimo il protagonismo tipico del mondo dell’arte e favorendo una più libera commistione tra campi tematici differenti, facendo partecipare nei suoi lavori più persone di diversa estrazione sociale. Questo lato relazionale è sempre accompagnato da una parte più teorica, che prende vita tramite la stesura di testi critici e riflessioni all’interno della sfera sociale e artistica. L’approccio teorico/critico e la predominanza di un rapporto alla sfera artistica incentrato sulla relazione e la partecipazione collettiva, possono essere sicuramente due caratteristiche funzionali al progetto Compost, il quale premia e incentiva un confronto basato su queste caratteristiche.</p>
+                </div>
+                <div class="bio-section">
                     <h3>Marco Curiale</h3>
-					<p> Marco Curiale (n. 1998) è un artista visivo attualmente residente a Torino, Italia. La sua ricerca è un costante flusso di dati da cui vengono catturate immagini instabili per costruire opere ibride e mutevoli. I suoi lavori sono stati esposti in mostre personali e collettive in spazi e gallerie in Italia e all’estero, tra cui: Cité Internationale des Arts, Mucho Mas!, Fondazione Fabbri, Palazzo Monti, Fondazione Bevilacqua La Masa, Osservatorio Futura e altri. Ha partecipato a vari programmi di residenza, come: Nouveau Grand Tour alla Cité Internationale des Arts, Parigi; New Generations 2024 ad Almanac, Mucho Mas! e Cripta747, Torino; TO.BE con Associazione Ghëddo, Torino. Nel 2023 si è laureato all’Accademia Albertina di Belle Arti con un master in Scultura e Arti Visive. L'identità grafica di Compost è curata da Marco Curiale: https://www.instagram.com/c0o0ori?igsh=MzljcGI5MWpxZDQ5&utm_source=qr</p>
-					</div>
-					<div class="bio-section">
+                    <p> Marco Curiale (n. 1998) è un artista visivo attualmente residente a Torino, Italia. La sua ricerca è un costante flusso di dati da cui vengono catturate immagini instabili per costruire opere ibride e mutevoli. I suoi lavori sono stati esposti in mostre personali e collettive in spazi e gallerie in Italia e all’estero, tra cui: Cité Internationale des Arts, Mucho Mas!, Fondazione Fabbri, Palazzo Monti, Fondazione Bevilacqua La Masa, Osservatorio Futura e altri. Ha partecipato a vari programmi di residenza, come: Nouveau Grand Tour alla Cité Internationale des Arts, Parigi; New Generations 2024 ad Almanac, Mucho Mas! e Cripta747, Torino; TO.BE con Associazione Ghëddo, Torino. Nel 2023 si è laureato all’Accademia Albertina di Belle Arti con un master in Scultura e Arti Visive. L'identità grafica di Compost è curata da Marco Curiale: https://www.instagram.com/c0o0ori?igsh=MzljcGI5MWpxZDQ5&utm_source=qr</p>
+                </div>
+                <div class="bio-section">
                     <h3>Denise Duina</h3>
-					<p>Denise Duina, nata nel 1994 a Brescia, l’artista intraprende il suo percorso di formazione presso l’Accademia di Belle Arti di Bologna, dove nel 2013 si iscrive al Triennio di Scenografia. Successivamente, nel 2018, consegue il diploma biennale in Grafica d’arte e nel 2024 conclude il Biennio in Didattica dell’arte e mediazione del patrimonio culturale. Attualmente è dottoranda di ricerca in Arte, Educazione e Multimedialità presso l'Accademia di Belle Arti di Bologna. La sua produzione artistica si focalizza sulla creazione di un terreno di compartecipazione tra la quotidianità e l’arte, con l’obiettivo di avvicinare anche i fruitori meno interessati al mondo artistico. Questo intento si concretizza inizialmente in opere visive realizzate con materiali e tecniche miste, progettate per essere accessibili anche a persone con disabilità. Il suo percorso formativo ha fortemente influenzato la sua pratica artistica, portandola a creare opere caratterizzate da un valore relazionale significativo. L’interazione e la partecipazione attiva del pubblico diventano così elementi fondamentali del suo lavoro, promuovendo un dialogo continuo tra l’opera d’arte e i suoi spettatori, anche nel lavoro di ricerca attuale</p>
-					</div>
-				<div class="bio-section" style="border-left-color: var(--text-muted); margin-top: 2rem;">
+                    <p>Denise Duina, nata nel 1994 a Brescia, l’artista intraprende il suo percorso di formazione presso l’Accademia di Belle Arti di Bologna, dove nel 2013 si iscrive al Triennio di Scenografia. Successivamente, nel 2018, consegue il diploma biennale in Grafica d’arte e nel 2024 conclude il Biennio in Didattica dell’arte e mediazione del patrimonio culturale. Attualmente è dottoranda di ricerca in Arte, Educazione e Multimedialità presso l'Accademia di Belle Arti di Bologna. La sua produzione artistica si focalizza sulla creazione di un terreno di compartecipazione tra la quotidianità e l’arte, con l’obiettivo di avvicinare anche i fruitori meno interessati al mondo artistico. Questo intento si concretizza inizialmente in opere visive realizzate con materiali e tecniche miste, progettate per essere accessibili anche a persone con disabilità. Il suo percorso formativo ha fortemente influenzato la sua pratica artistica, portandola a creare opere caratterizzate da un valore relazionale significativo. L’interazione e la partecipazione attiva del pubblico diventano così elementi fondamentali del suo lavoro, promuovendo un dialogo continuo tra l’opera d’arte e i suoi spettatori, anche nel lavoro di ricerca attuale</p>
+                </div>
+                <div class="bio-section" style="border-left-color: var(--text-muted); margin-top: 2rem;">
                     <p style="font-style: italic; color: var(--text-muted);">
                         "I nostri nomi sono presenti non per una questione di autorialità in quanto abbiamo ideato questo progetto per trasformare questo concetto. Compost è, e sarà sempre qualcosa che fermenta dal basso, che trasforma la normatività attraverso chi lo abita. I nostri nomi sono presenti sul sito perché ci mettiamo in gioco, proviamo a cambiare l'infrastruttura che costruisce, e ha costruito, nel tempo l'ambiente che ci circonda e che abitiamo e per questo vogliamo metterci la faccia."
                     </p>
@@ -570,7 +582,38 @@
             </div>
         </div>
     </div>
-
+    <div id="legend-modal" class="auth-modal-overlay">
+        <div class="auth-modal-content">
+            <button class="auth-modal-close">&times;</button>
+            <div class="popup-content">
+                <h1>Legenda Nodi</h1>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: var(--tesi-color);"></div>
+                    <span>Tesi di partenza (Azzurro/Turchese)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: var(--nota-color);"></div>
+                    <span>Note Bibliografiche (Magenta)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: var(--autore-color);"></div>
+                    <span>Autrici e Autori (Giallo)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: var(--domanda-color);"></div>
+                    <span>Domande (Verde)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: var(--risposta-color);"></div>
+                    <span>Risposte alle domande aperte (Blu)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color-box" style="background-color: var(--contributo-color);"></div>
+                    <span>Contributi alla tesi di partenza (Viola)</span>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -689,8 +732,16 @@
                     if (options.type === 'contribute') {
                         finalContentHtml = `
                             <form id="contribute-form">
-                                <input type="text" class="auth-input" placeholder="Titolo" required style="margin-bottom: 10px;">
-                                <textarea class="auth-input" placeholder="Scrivi qui... [[collegamento]]" required style="height: 150px; resize: vertical;"></textarea>
+                                <select name="node-type" class="auth-input" required style="margin-bottom: 10px;">
+                                    <option value="" disabled selected>Seleziona tipo di contributo...</option>
+                                    <option value="nota">Nota Bibliografica</option>
+                                    <option value="autore">Autrice/Autore</option>
+                                    <option value="domanda">Domanda Aperta</option>
+                                    <option value="risposta">Risposta a Domanda Aperta</option>
+                                    <option value="contributo">Contributo alla Tesi</option>
+                                </select>
+                                <input type="text" name="node-title" class="auth-input" placeholder="Titolo" required style="margin-bottom: 10px;">
+                                <textarea name="node-content" class="auth-input" placeholder="Scrivi qui... [[collegamento]]" required style="height: 150px; resize: vertical;"></textarea>
                             </form>`;
                         finalFooterHtml = `
                             <div class="popup-footer">
@@ -841,7 +892,7 @@
                     contribItem.className = 'history-item';
                     const link = document.createElement('a');
                     link.textContent = `${node.title} (${node.status})`;
-                    link.onclick = () => windowManager.createWindow({ id: node.title, title: node.title, content: node.content, type: 'utente' });
+                    link.onclick = () => windowManager.createWindow({ id: node.title, title: node.title, content: node.content, type: node.type });
                     contribItem.appendChild(link);
                     contribContent.appendChild(contribItem);
                 });
@@ -855,16 +906,20 @@
             const logoutBtn = document.getElementById('logout-btn');
             const userDisplay = document.getElementById('user-display');
             const collapseBtn = document.getElementById('collapse-btn'); 
+            const legendBtn = document.getElementById('legend-btn'); // --- IMPLEMENTAZIONE: Selettore pulsante legenda ---
 
             const signUpModal = document.getElementById('signup-modal');
             const logInModal = document.getElementById('login-modal');
             const teamModal = document.getElementById('team-modal');
             const bugReportModal = document.getElementById('bug-report-modal');
+            const legendModal = document.getElementById('legend-modal'); // --- IMPLEMENTAZIONE: Selettore modale legenda ---
+
 
             collapseBtn.addEventListener('click', () => windowManager.collapseAll());
             signUpBtn.addEventListener('click', () => signUpModal.classList.add('visible'));
             logInBtn.addEventListener('click', () => logInModal.classList.add('visible'));
             teamBtn.addEventListener('click', () => teamModal.classList.add('visible'));
+            legendBtn.addEventListener('click', () => legendModal.classList.add('visible')); // --- IMPLEMENTAZIONE: Event listener per la legenda ---
             
             document.getElementById('how-to-btn').addEventListener('click', () => {
                 const howToContent = `
@@ -906,7 +961,7 @@
                 }
                 modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('visible'); });
             }
-            [signUpModal, logInModal, teamModal, bugReportModal].forEach(setupAuthModal);
+            [signUpModal, logInModal, teamModal, bugReportModal, legendModal].forEach(setupAuthModal);
             
             document.getElementById('signup-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -1040,13 +1095,18 @@
                 }
             });
 
+            // --- IMPLEMENTAZIONE: Funzione di invio contributo aggiornata ---
             async function handleContributionSubmit(win) {
                 const form = win.querySelector('#contribute-form');
                 const msgEl = win.querySelector('.popup-message');
                 try {
+                    const type = form.elements['node-type'].value;
+                    const title = form.elements['node-title'].value;
+                    const content = form.elements['node-content'].value;
+                    
                     const response = await fetch(`${API_BASE_URL}/api/nodes`, {
                         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-                        body: JSON.stringify({ title: form.elements[0].value, content: form.elements[1].value })
+                        body: JSON.stringify({ type, title, content })
                     });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
@@ -1214,13 +1274,9 @@
             function expandGraph() {
                 isFirstVisit = false;
                 
-                // --- NUOVA CORREZIONE JS PER VISIBILITÀ NODI ---
-                // Ricalcola le dimensioni e ricentra la simulazione *prima* di mostrare il grafo.
-                // Questo è cruciale per la visualizzazione corretta su smartphone e tablet.
                 width = container.node().clientWidth;
                 height = container.node().clientHeight;
                 simulation.force("center", d3.forceCenter(width / 2, height / 2));
-                // --- FINE CORREZIONE ---
 
                 currentNodes = fullGraphData.nodes; 
                 currentLinks = fullGraphData.links;
@@ -1287,7 +1343,6 @@
                 }
                 requestAnimationFrame(check);
             }
-
             const handleSearch = (event) => {
                 event.preventDefault();
                 const searchTerm = document.getElementById('search-input').value.toLowerCase();
