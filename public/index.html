@@ -850,21 +850,43 @@
                 }
             };
             
-            async function updateHistory(nodeData) {
-                if (visitedNodes.has(nodeData.id)) return;
-                visitedNodes.add(nodeData.id);
-                if (authToken) {
-                    try {
-                        await fetch(`${API_BASE_URL}/api/me/history`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-                            body: JSON.stringify({ nodeId: nodeData.id })
-                        });
-                    } catch (error) { console.error("Errore salvataggio cronologia:", error); }
-                }
-                populateHistoryUI();
-                d3.select(d3.selectAll('.node-group').filter(d => d.id === nodeData.id).node()).select('.node').classed('visited', true);
+            // La versione corretta e più robusta
+async function updateHistory(nodeData) {
+    // Se il nodo è già stato visitato in questa sessione, non fare nulla
+    if (visitedNodes.has(nodeData.id)) return;
+    visitedNodes.add(nodeData.id);
+
+    // 1. Aggiorna l'interfaccia utente SUBITO, senza aspettare il server.
+    populateHistoryUI();
+    d3.select(d3.selectAll('.node-group').filter(d => d.id === nodeData.id).node()).select('.node').classed('visited', true);
+
+    // 2. Se l'utente è loggato, invia l'aggiornamento al server in background.
+    if (authToken) {
+        if (!nodeData || !nodeData.id) {
+            console.error("Tentativo di salvare in cronologia un nodo non valido:", nodeData);
+            return;
+        }
+        
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/me/history`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${authToken}` 
+                },
+                body: JSON.stringify({ nodeId: nodeData.id })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Errore dal server durante il salvataggio della cronologia:", errorData.message);
             }
+
+        } catch (error) { 
+            console.error("Errore di rete durante il salvataggio della cronologia:", error); 
+        }
+    }
+}
 
             function populateHistoryUI() {
                 const historyContent = document.getElementById('history-content');
