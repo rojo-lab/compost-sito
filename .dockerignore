@@ -1,0 +1,9 @@
+# Non copiare le dipendenze locali, le installeremo dentro il container
+node_modules
+
+# Non copiare i file di ambiente, le chiavi segrete verranno gestite diversamente
+.env
+
+# Non copiare la cartella di Git
+.git
+.gitignore
